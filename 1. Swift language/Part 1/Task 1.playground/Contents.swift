@@ -40,3 +40,4 @@ public func isPalindrome(input: String) -> Bool {
     return cleanString == String(cleanString.reversed())
 }
 
+

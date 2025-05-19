@@ -30,3 +30,4 @@ public func isBalancedParentheses(input: String) -> Bool {
     // Number of '(' and ')' should be the same
     return openParentCount == closeParentCount
 }
+

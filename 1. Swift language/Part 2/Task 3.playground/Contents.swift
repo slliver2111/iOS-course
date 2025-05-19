@@ -1,22 +1,57 @@
-//1. Create a Person base class with the following:
-//• Properties: name (String), age (Int)
-//• A designated initializer
-//• A failable initializer (fails if age is less than 16)
-//2. Create a Student subclass that inherits from Person with additional properties:
-//• studentID (String)
-//• major (String)
-//• A required initializer
-//• A convenience initializer
-//3. Create a Professor subclass with additional properties:
-//• faculty (String)
-//• A custom initializer calling the superclass
-//4. Create a University struct with properties:
-//• name (String), location (String)
-//• A memberwise initializer (default in Swift for structs)
+//What should be done
+//*
+//Steps to Implement:
+//
+//1. Modify Person class:
+//
+//• Add a computed property (isAdult: Bool) which check age >= 18
+//
+//• Add a static property (minAgeForEnrollment = 16)
+//
+//• Add a lazy property (profileDescription) which return "\(name) is \(age) years old."
+//
+//2. Modify Student subclass:
+//
+//• Add a static counter to track the number of students - studentCount
+//
+//• Add a weak reference to an optional Professor (advisor)
+//
+//• Add a computed property to format studentID - formattedID, which return "ID: " and studentID in uppercased
+//
+//3. Modify Professor subclass:
+//
+//• Add a static counter for professors - professorCount
+//
+//• Add a computed property for fullTitle
+//
+//4. Modify University struct:
+//
+//• Add a computed property (description)
+
+actor StudentCounter {
+    var counter = 0
+    
+    func increment() {
+        counter += 1
+    }
+    
+    func getValue() -> Int {
+        return counter
+    }
+}
+
+let studentCounter = StudentCounter()
 
 class Person {
     let name: String
     let age: Int
+    var isAdult: Bool {
+        return age >= 18
+    }
+    static let minAgeForEnrollment = 16
+    lazy var profileDescription: String = {
+        return "\(name) is \(age) years old."
+    }()
     
     // A designated initializer
     init(name: String, age: Int) {
@@ -39,6 +74,11 @@ class Person {
 class Student: Person {
     let studentID: String
     var major: String = ""
+    
+    // Add a static counter to track the number of students - studentCount
+    static func studentCount() async -> Int {
+        return await studentCounter.getValue()
+    }
     
     // A required initializer
     required init?(name: String, age: Int, studentID: String) {
