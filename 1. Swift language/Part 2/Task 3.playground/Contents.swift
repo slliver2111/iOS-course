@@ -40,7 +40,21 @@ actor StudentCounter {
     }
 }
 
+actor ProfessorCounter {
+    var counter = 0
+    
+    func increment() {
+        counter += 1
+    }
+    
+    func getValue() -> Int {
+        return counter
+    }
+}
+
+// Global instance of counter actor
 let studentCounter = StudentCounter()
+let professorCounter = ProfessorCounter()
 
 class Person {
     let name: String
@@ -74,6 +88,10 @@ class Person {
 class Student: Person {
     let studentID: String
     var major: String = ""
+    weak var advisor: Professor?
+    var formattedID: String {
+        return "ID: \(studentID.uppercased())"
+    }
     
     // Add a static counter to track the number of students - studentCount
     static func studentCount() async -> Int {
@@ -84,6 +102,9 @@ class Student: Person {
     required init?(name: String, age: Int, studentID: String) {
         self.studentID = studentID
         super.init(name: name, ageCheck: age)
+        Task {
+            await studentCounter.increment()
+        }
     }
     
     // A convenience initializer
@@ -96,11 +117,22 @@ class Student: Person {
 
 class Professor: Person {
     let faculty: String
+    var fullTitle: String {
+        return "Prof. of \(faculty) \(name)"
+    }
+    
+    // Add a static counter to track the number of professors - professorCount
+    static func professorCount() async -> Int {
+        return await professorCounter.getValue()
+    }
     
     // A custom initializer calling the superclass
     init?(name: String, age: Int, faculty: String) {
         self.faculty = faculty
         super.init(name: name, ageCheck: age)
+        Task {
+            await professorCounter.increment()
+        }
     }
     
 }
@@ -109,11 +141,19 @@ class Professor: Person {
 struct University{
     var name: String
     var location: String
+    
+    var description: String {
+        return "The \(name) located in \(location)"
+    }
 }
 
 var artur = Person(name: "Artur", age: 10)
 var ola = Person(name: "Ola", age: 22)
 
 var pawel = Student(name: "Pawel", age: 22, studentID: "2213")
+var arek = Professor(name: "Arek", age: 50, faculty: "Aviation")
+
+pawel?.advisor = arek
+
 var prz = University(name: "Prz", location: "Rzeszow")
 
