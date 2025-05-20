@@ -9,29 +9,20 @@
 //- The solution should ignore spaces, punctuation, capitalization and control characters.
 //- The solution should not use any third-party libraries or regular expressions.
 //- The solution should not consider an empty string or a single character as a palindrome.
-public func isPalindrome(input: String) -> Bool {
-    // Helper function to identify C0, C1, and DEL control characters.
-    func isControlCharacter(_ char: Character) -> Bool {
-        guard let scalar = char.unicodeScalars.first else { return false }
-        let value = scalar.value
-        return (value >= 0x00 && value <= 0x1F) || (value >= 0x80 && value <= 0x9F) || value == 0x7F
-    }
 
-    let lowerInput = input.lowercased()
-    var cleanChars: [Character] = []
+import Foundation
+
+public func isPalindrome(input: String) -> Bool {
+    // Lowercase
+    let lowercasedString = input.lowercased()
     
-    // Clean string by removing bad characters
-    for char in lowerInput{
-        if !char.isWhitespace &&
-            !char.isPunctuation &&
-            !isControlCharacter(char){
-            cleanChars.append(char)
-        }
-    }
+    // Normalize string - remove diacritics using Foundation library
+    let normalizedString = lowercasedString.folding(options: .diacriticInsensitive, locale: .current).lowercased()
     
-    let cleanString = String(cleanChars)
+    // Clean string by filtering only letters and numbers
+    let cleanString = normalizedString.filter{ $0.isLetter || $0.isNumber }
     
-    // If there is only 1 character or nothing return false
+    // If there is only 1 character or nothing function returns false
     if cleanString.count <= 1{
         return false
     }
@@ -39,5 +30,3 @@ public func isPalindrome(input: String) -> Bool {
     // After cleaning if it is palindrome reversed string should match
     return cleanString == String(cleanString.reversed())
 }
-
-
