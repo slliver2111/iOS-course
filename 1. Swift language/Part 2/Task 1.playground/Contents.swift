@@ -64,12 +64,24 @@ class UserManager{
     
     func login(username: String, password: String) -> Bool {
         let userExists = registeredUsers[username.lowercased()] != nil
-        let passwordCorrect = registeredUsers[username]?.password == password
-        return userExists && passwordCorrect
+        
+        // Check if username exists
+        guard registeredUsers[username.lowercased()] != nil else {
+            print("Username does not exist")
+            return false
+        }
+        
+        // Check if password is correct
+        guard registeredUsers[username]?.password == password else {
+            print("Incorrect password")
+            return false
+        }
+        
+        // All correct
+        return true
     }
     
     func removeUser(username: String) -> Bool {
-        //TODO check if exists
         return registeredUsers.removeValue(forKey: username) != nil
     }
 }
@@ -84,4 +96,3 @@ class AdminUser: UserManager{
         print("Admin was removed")
     }
 }
-
