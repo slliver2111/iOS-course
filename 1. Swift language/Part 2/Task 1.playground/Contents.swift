@@ -17,19 +17,20 @@
 import Foundation
 
 struct User{
-    var username: String
-    var email: String
-    var password: String
+    let username: String
+    let email: String
+    let password: String
     
     init(username: String, email: String, password: String) {
         self.username = username
         self.email = email
-        self.password = password
+        self.password = password + "hashed" //simulation
+        print("User \(username) created!")
     }
 }
 
 class UserManager{
-    private var registeredUsers: [String: User] = [:]
+    private var registeredUsers: [String: User]
     var userCount: Int {
         registeredUsers.count
     }
@@ -38,15 +39,38 @@ class UserManager{
         Array(registeredUsers.keys)
     }
     
+    init() {
+        self.registeredUsers = [:]
+        print("An object UserManager created!")
+    }
+    
     func registerUser(username: String, email: String, password: String) -> Bool {
-        // Check if username already exists
+        // Check if username is not empty
+        guard !username.isEmpty else {
+            print("Username cannot be empty!")
+            return false
+        }
+        
+        // Check if email is not empty
+        guard !email.isEmpty else {
+            print("Email cannot be empty!")
+            return false
+        }
+        
+        // Check if password is not empty
+        guard !password.isEmpty else {
+            print("Password cannot be empty!")
+            return false
+        }
+        
+        // Check if username does not exist
         guard registeredUsers[username.lowercased()] == nil else {
             print("User \(username) already exists!")
             return false
         }
         
-        // Check if email already exists
-        guard !registeredUsers.values.contains(where: {$0.email.lowercased() == email.lowercased() }) else {
+        // Check if email does not exist
+        guard !registeredUsers.values.contains(where: {$0.email == email.lowercased() }) else {
             print("Email \(email) is already taken!")
             return false
         }
@@ -58,35 +82,41 @@ class UserManager{
             password: password
         )
         
-        print("User \(username) created succesfully!")
+        print("User \(username) registered!")
         return true
     }
     
     func login(username: String, password: String) -> Bool {
-        let userExists = registeredUsers[username.lowercased()] != nil
-        
         // Check if username exists
-        guard registeredUsers[username.lowercased()] != nil else {
+        guard let fetchedUser = registeredUsers[username.lowercased()] else {
             print("Username does not exist")
             return false
         }
         
         // Check if password is correct
-        guard registeredUsers[username]?.password == password else {
+        guard fetchedUser.password == (password + "hashed") else { //simulated hashed password
             print("Incorrect password")
             return false
         }
         
         // All correct
+        print("User \(username) logged correctly!")
         return true
     }
     
     func removeUser(username: String) -> Bool {
-        guard registeredUsers.removeValue(forKey: username) != nil else {
+        if registeredUsers.removeValue(forKey: username.lowercased()) != nil {
+            print("User \(username) removed successfully!")
+            return true
+        }
+        else {
             print("Error with removing user \(username)")
             return false
         }
-        return true
+    }
+    
+    deinit {
+        print("An User Manager object was removed")
     }
 }
 
