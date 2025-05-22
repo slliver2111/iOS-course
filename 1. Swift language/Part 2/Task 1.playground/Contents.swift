@@ -15,16 +15,6 @@
 //5. Use deinitialization in AdminUser to print a message when an admin instance is removed from memory.
 
 import Foundation
-import CryptoKit
-
-func hashData(data: Data) -> String {
-    let hashedData = SHA256.hash(data: data)
-    let hashedString = hashedData.compactMap {
-        String(format: "%02x", $0 )
-    }.joined()
-    return hashedString
-}
-
 
 struct User{
     var username: String
@@ -34,7 +24,7 @@ struct User{
     init(username: String, email: String, password: String) {
         self.username = username
         self.email = email
-        self.password = hashData(data: Data(password.utf8))
+        self.password = password
     }
 }
 
@@ -75,7 +65,7 @@ class UserManager{
     func login(username: String, password: String) -> Bool {
         let inputData = Data(password.utf8)
         //TODO check if exists
-        return registeredUsers[username]?.password == hashData(data: Data(password.utf8))
+        return registeredUsers[username]?.password == password
     }
     
     func removeUser(username: String) -> Bool {
