@@ -82,7 +82,11 @@ class UserManager{
     }
     
     func removeUser(username: String) -> Bool {
-        return registeredUsers.removeValue(forKey: username) != nil
+        guard registeredUsers.removeValue(forKey: username) != nil else {
+            print("Error with removing user \(username)")
+            return false
+        }
+        return true
     }
 }
 
