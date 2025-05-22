@@ -74,10 +74,12 @@ class UserManager{
     
     func login(username: String, password: String) -> Bool {
         let inputData = Data(password.utf8)
+        //TODO check if exists
         return registeredUsers[username]?.password == hashData(data: Data(password.utf8))
     }
     
     func removeUser(username: String) -> Bool {
+        //TODO check if exists
         return registeredUsers.removeValue(forKey: username) != nil
     }
 }
