@@ -39,8 +39,9 @@ class UserManager{
     }
     
     func registerUser(username: String, email: String, password: String) -> Bool {
+        
         // Check if username already exists
-        guard registeredUsers[username] == nil else {
+        guard registeredUsers[username.lowercased()] == nil else {
             print("User \(username) already exists!")
             return false
         }
@@ -52,8 +53,8 @@ class UserManager{
         }
         
         // Create user in database
-        registeredUsers[username] = User(
-            username: username,
+        registeredUsers[username.lowercased()] = User(
+            username: username.lowercased(),
             email: email.lowercased(),
             password: password
         )
