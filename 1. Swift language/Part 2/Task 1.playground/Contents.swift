@@ -39,7 +39,6 @@ class UserManager{
     }
     
     func registerUser(username: String, email: String, password: String) -> Bool {
-        
         // Check if username already exists
         guard registeredUsers[username.lowercased()] == nil else {
             print("User \(username) already exists!")
@@ -64,9 +63,9 @@ class UserManager{
     }
     
     func login(username: String, password: String) -> Bool {
-        let inputData = Data(password.utf8)
-        //TODO check if exists
-        return registeredUsers[username]?.password == password
+        let userExists = registeredUsers[username.lowercased()] != nil
+        let passwordCorrect = registeredUsers[username]?.password == password
+        return userExists && passwordCorrect
     }
     
     func removeUser(username: String) -> Bool {
