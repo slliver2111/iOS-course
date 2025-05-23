@@ -52,10 +52,6 @@ actor ProfessorCounter {
     }
 }
 
-// Global instance of counter actor
-let studentCounter = StudentCounter()
-let professorCounter = ProfessorCounter()
-
 class Person {
     let name: String
     let age: Int
@@ -84,7 +80,6 @@ class Person {
     }
 }
 
-
 class Student: Person {
     let studentID: String
     var major: String = ""
@@ -93,13 +88,17 @@ class Student: Person {
         return "ID: \(studentID.uppercased())"
     }
     
-    // Add a static counter to track the number of students - studentCount
-    static func studentCount() async -> Int {
-        return await studentCounter.getValue()
+    // A required initializers
+    required init(name: String, age: Int, studentID: String) {
+        self.studentID = studentID
+        super.init(name: name, age: age)
+        Task {
+            await studentCounter.increment()
+        }
     }
     
-    // A required initializer
-    required init?(name: String, age: Int, studentID: String) {
+    // Cover ageCheck feature
+    init?(name: String, ageCheck age: Int, studentID: String) {
         self.studentID = studentID
         super.init(name: name, ageCheck: age)
         Task {
@@ -108,9 +107,20 @@ class Student: Person {
     }
     
     // A convenience initializer
-    convenience init?(name: String, age: Int, studentID: String, major: String) {
+    convenience init(name: String, age: Int, studentID: String, major: String) {
         self.init(name: name, age: age, studentID: studentID)
         self.major = major
+    }
+    
+    // Cover ageCheck feature
+    convenience init?(name: String, ageCheck age: Int, studentID: String, major: String) {
+        self.init(name: name, ageCheck: age, studentID: studentID)
+        self.major = major
+    }
+    
+    // Add a static counter to track the number of students - studentCount
+    static func studentCount() async -> Int {
+        return await studentCounter.getValue()
     }
 }
 
@@ -127,33 +137,53 @@ class Professor: Person {
     }
     
     // A custom initializer calling the superclass
-    init?(name: String, age: Int, faculty: String) {
+    init(name: String, age: Int, faculty: String) {
+        self.faculty = faculty
+        super.init(name: name, age: age)
+        Task {
+            await professorCounter.increment()
+        }
+    }
+    
+    // Cover ageCheck feature
+    init?(name: String, ageCheck age: Int, faculty: String) {
         self.faculty = faculty
         super.init(name: name, ageCheck: age)
         Task {
             await professorCounter.increment()
         }
     }
-    
 }
+
+//class MedicineStudent: Student {
+//    required init(name: String, age: Int, studentID: String) {
+//        super.init(name: name, age: age, studentID: studentID)
+//    }
+//}
 
 // A memberwise initializer (default in Swift for structs)
 struct University{
     var name: String
     var location: String
-    
     var description: String {
         return "The \(name) located in \(location)"
     }
 }
 
-var artur = Person(name: "Artur", age: 10)
-var ola = Person(name: "Ola", age: 22)
+let artur = Person(name: "Artur", age: 10)
+let ola = Person(name: "Ola", age: 22)
+let tomek = Person(name: "Tomek", ageCheck: 19)
+let lukas = Person(name: "Lukas", ageCheck: 10) // Expected nil
+let maciek = Student(name: "Maciek", age: 20, studentID: "01")
+let marta = Student(name: "Marta", age: 20, studentID: "02", major: "IT")
+let marek = Student(name: "Marek", ageCheck: 20, studentID: "00")
+let romek = Student(name: "Romek", ageCheck: 10, studentID: "03") // Expected nil
+let weronika = Student(name: "Weronika", ageCheck: 10, studentID: "04", major: "Medicine") // Expected nil
 
-var pawel = Student(name: "Pawel", age: 22, studentID: "2213")
-var arek = Professor(name: "Arek", age: 50, faculty: "Aviation")
+let pawel = Professor(name: "Pawel", age: 22, faculty: "History")
+let prz = University(name: "Prz", location: "Rzeszow")
 
-pawel?.advisor = arek
-
-var prz = University(name: "Prz", location: "Rzeszow")
+// Global instance of counter actor
+let studentCounter = StudentCounter()
+let professorCounter = ProfessorCounter()
 
