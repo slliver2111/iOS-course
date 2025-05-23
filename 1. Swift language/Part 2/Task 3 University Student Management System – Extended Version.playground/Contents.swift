@@ -88,22 +88,23 @@ class Student: Person {
         return "ID: \(studentID.uppercased())"
     }
     
+    // Add a static counter to track the number of students - studentCount
+    static func studentCount() async -> Int {
+        return await studentCounter.getValue()
+    }
+    
     // A required initializers
     required init(name: String, age: Int, studentID: String) {
         self.studentID = studentID
         super.init(name: name, age: age)
-        Task {
-            await studentCounter.increment()
-        }
+        //studentCounter.increment()
     }
     
     // Cover ageCheck feature
     init?(name: String, ageCheck age: Int, studentID: String) {
         self.studentID = studentID
         super.init(name: name, ageCheck: age)
-        Task {
-            await studentCounter.increment()
-        }
+        //studentCounter.increment()
     }
     
     // A convenience initializer
@@ -116,11 +117,6 @@ class Student: Person {
     convenience init?(name: String, ageCheck age: Int, studentID: String, major: String) {
         self.init(name: name, ageCheck: age, studentID: studentID)
         self.major = major
-    }
-    
-    // Add a static counter to track the number of students - studentCount
-    static func studentCount() async -> Int {
-        return await studentCounter.getValue()
     }
 }
 
@@ -140,18 +136,15 @@ class Professor: Person {
     init(name: String, age: Int, faculty: String) {
         self.faculty = faculty
         super.init(name: name, age: age)
-        Task {
-            await professorCounter.increment()
-        }
+        //professorCounter.increment()
     }
     
     // Cover ageCheck feature
     init?(name: String, ageCheck age: Int, faculty: String) {
         self.faculty = faculty
         super.init(name: name, ageCheck: age)
-        Task {
-            await professorCounter.increment()
-        }
+        //professorCounter.increment()
+        
     }
 }
 
