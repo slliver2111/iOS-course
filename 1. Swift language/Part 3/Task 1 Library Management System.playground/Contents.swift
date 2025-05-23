@@ -27,54 +27,133 @@
 //borrowItem(by id: String) -> Item: Method that attempts to let a user borrow an item using its ID: Use optional chaining to handle potential nil values. Ensure accurate error handling using throws to manage errors such as itemNotFound, itemNotBorrowable, and alreadyBorrowed.
 //6. Implement optional chaining in the borrowItem(by:)method to handle cases where an item might not be found or might not conform to Borrowable, thus avoiding runtime errors and smoothly handling exceptional cases.
 
+import Foundation
 
 protocol Borrowable {
-    var borrowDate: String { get set }
-    var returnDate: String { get set }
+    var borrowDate: Date? { get set }
+    var returnDate: Date? { get set }
     var isBorrowed: Bool { get set }
-    mutating func checkIn()
-}
-
-extension Borrowable {
-    func isOverdue() -> Bool {
-        //TODO Method to check if the item is overdue based on returnDate.
-        return false
-    }
-    
-    mutating func checkIn() {
-        borrowDate = ""
-        returnDate = ""
-        isBorrowed = false
-    }
+    func overDue() -> Bool
+    func checkIn()
 }
 
 class Item {
-    let id: Int
+    let id: String
     let title: String
     let author: String
     
-    init(id: Int, title: String, author: String) {
+    init(id: String, title: String, author: String) {
         self.id = id
         self.title = title
         self.author = author
     }
-    
 }
 
 class Book: Item, Borrowable {
-    var returnDate: String
-    var borrowDate: String
+    var returnDate: Date?
+    var borrowDate: Date?
     var isBorrowed: Bool
+    static let numberOfDaysToBorrow: Double = 20
     
-    init(id: Int, title: String, author: String, returnDate: String, isBorrowed: Bool, borrowDate: String) {
-        self.returnDate = returnDate
-        self.isBorrowed = isBorrowed
-        self.borrowDate = borrowDate
+    override init(id: String, title: String, author: String) {
+        self.returnDate = nil
+        self.borrowDate = nil
+        self.isBorrowed = false
         super.init(id: id, title: title, author: author)
+    }
+    
+    func overDue() -> Bool { //TODO
+        return Date.now > self.returnDate ?? Date.now
+    }
+    
+    func checkIn() {
+        self.borrowDate = nil
+        self.returnDate = nil
+        self.isBorrowed = false
+    }
+    
+    func checkOut() {
+        self.borrowDate = Date.now
+        self.returnDate = Date.now.addingTimeInterval(86400 * Book.numberOfDaysToBorrow)
+        self.isBorrowed = true
     }
 }
 
 
-enum LibraryError{
+enum LibraryError: Error{
     case itemNotFound, itemNotBorrowable, alreadyBorrowed
+}
+
+class Library{
+    var books: [String:Book]
+    
+    init() {
+        self.books = [:]
+    }
+    
+    func addBook(_ book: Book) {
+        self.books[book.id] = book
+    }
+    
+    func borrowItem(by id: String) throws -> Item? {
+        guard let book = self.books[id] else {
+            throw LibraryError.itemNotFound
+        }
+        
+        guard book.isBorrowed != true else {
+            throw LibraryError.alreadyBorrowed
+        }
+        
+        guard book is Borrowable else { //TODO
+            throw LibraryError.itemNotBorrowable
+        }
+        
+        book.checkOut()
+        
+        return self.books[id]
+    }
+    
+}
+
+let myLibrary = Library()
+let myBook1 = Book(id: "00", title: "LOTR", author: "Tolkien")
+let myBook2 = Book(id: "01", title: "Harry Potter", author: "JK Rowling")
+let myBook3 = Book(id: "02", title: "the Winnie Poth", author: "I dont know")
+
+myLibrary.addBook(myBook1)
+myLibrary.addBook(myBook2)
+myLibrary.addBook(myBook3)
+
+let userItem1: Item?
+let userItem2: Item?
+let userItem3: Item?
+
+// Expected: Success
+do{
+    userItem1 = try myLibrary.borrowItem(by: "00")
+    print("Success")
+    
+    if let userBook1 = userItem1 as? Book {
+       print("Book is overdue \(userBook1.overDue())")
+    } else {
+        print("Failed to cast to Dog.")
+    }
+} catch LibraryError.itemNotFound {
+    print("Book is not available")
+} catch LibraryError.alreadyBorrowed {
+    print("Book is already borrowed")
+} catch LibraryError.itemNotBorrowable {
+    print("Book is \(LibraryError.itemNotBorrowable.hashValue)")
+}
+
+
+// Expected: Book is already borrowed
+do{
+    userItem2 = try myLibrary.borrowItem(by: "00")
+} catch LibraryError.itemNotFound {
+    print("Book is not available")
+} catch LibraryError.alreadyBorrowed {
+    print("Book is already borrowed")
+} catch LibraryError.itemNotBorrowable {
+    print("Book is \(LibraryError.itemNotBorrowable.hashValue)")
 }
