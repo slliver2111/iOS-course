@@ -1,58 +1,160 @@
-///1. Assume you have an array of dictionaries. Each dictionary contains details about books (title, author, year, price, and genre). Use this:
-///let books = [
-///["title": "Swift Fundamentals", "author": "John Doe", "year": 2015, "price": 40, "genre": ["Programming", "Education"]],
-///["title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "year": 1925, "price": 15, "genre": ["Classic", "Drama"]],
-///["title": "Game of Thrones", "author": "George R. R. Martin", "year": 1996, "price": 30, "genre": ["Fantasy", "Epic"]],
-///["title": "Big Data, Big Dupe", "author": "Stephen Few", "year": 2018, "price": 25, "genre": ["Technology", "Non-Fiction"]],
-///["title": "To Kill a Mockingbird", "author": "Harper Lee", "year": 1960, "price": 20, "genre": ["Classic", "Drama"]]
-///]
+//What should be done
+//*
+//Steps:
+//
+//Define a protocol Borrowablewith properties borrowDate, returnDate, and a method checkIn().
+//borrowDate: Optional Date for when the item was borrowed.
+//returnDate: Optional Date for when the item should be returned.
+//isBorrowed: Boolean indicating if the item is currently borrowed.
+//checkIn(): handles item return processes, resetting dates and status.
+//2. Provide a default implementation of the Borrowable:
+//
+//isOverdue() -> Bool: Method to check if the item is overdue based on returnDate.
+//checkIn(): Method to clear borrowDate, returnDate, and set isBorrowed to false, allowing the item to be available for borrowing again.
+//3. Create Classes:
+//
+//Item Class: A base class Item with properties: id: Unique identifier for the item, title: The title of the item and author: Author of the item.
+//Book Subclass: A subclass of Item, Book, conforming to the Borrowable protocol and inheriting properties from Item.
+//4. Define an enumeration LibraryError with specific cases to handle various errors such as:
+//
+//itemNotFound: Triggered when an attempted borrow action is requested on an item ID that does not exist.
+//itemNotBorrowable: Triggered if an item does not conform to the Borrowable protocol.
+//alreadyBorrowed: Triggered if an item is already borrowed.
+//5. Create a Library class that manages collections of items. Include:
+//
+//A dictionary to store items with their ID as the key.
+//addBook(_ book: Book): Method to add books to the library’s collection.
+//borrowItem(by id: String) -> Item: Method that attempts to let a user borrow an item using its ID: Use optional chaining to handle potential nil values. Ensure accurate error handling using throws to manage errors such as itemNotFound, itemNotBorrowable, and alreadyBorrowed.
+//6. Implement optional chaining in the borrowItem(by:)method to handle cases where an item might not be found or might not conform to Borrowable, thus avoiding runtime errors and smoothly handling exceptional cases.
 
-let books = [
-    ["title": "Swift Fundamentals", "author": "John Doe", "year": 2015, "price": 40, "genre": ["Programming", "Education"]],
-    ["title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "year": 1925, "price": 15, "genre": ["Classic", "Drama"]],
-["title": "Game of Thrones", "author": "George R. R. Martin", "year": 1996, "price": 30, "genre": ["Fantasy", "Epic"]],
-["title": "Big Data, Big Dupe", "author": "Stephen Few", "year": 2018, "price": 25, "genre": ["Technology", "Non-Fiction"]],
-["title": "To Kill a Mockingbird", "author": "Harper Lee", "year": 1960, "price": 20, "genre": ["Classic", "Drama"]]]
+import Foundation
 
-///2. Define new global variable of type Array<Double> named`discountedPrices` that will include just the prices of the above books with a 10% discount applied. Use `map`/`compactMap` to solve this.
-///1. version - it assumes only Int in prices
-//var discountedPrices_Ints: Array<Double> = books.map{ val in return Double(val.compactMap{ $0 == "price" ? $1 : nil }[0] as! Int)*0.9 }
-///2. version - safe
-var prices = books.compactMap{ $0["price"] }
-var discountedPrices: Array<Double> = prices.compactMap{ price -> Double? in
-    
-    switch price{
-        case let intValue as Int:
-            return Double(intValue) * 0.9
-        case let doubleValue as Double:
-            return doubleValue * 0.9
-        case let stringValue as String:
-            if let newDouble = Double(stringValue) {
-                return newDouble * 0.9
-            } else {
-                return nil
-            }
-        default:
-            return nil
-        }
+protocol Borrowable {
+    var borrowDate: Date? { get set }
+    var returnDate: Date? { get set }
+    var isBorrowed: Bool { get set }
+    var defaultBorrowingDays: Double { get }
+    mutating func checkIn()
 }
 
-///3. Define new global variable of type Array<String> named `booksPostedAfter2000` that will include book titles of the books published after the year 2000. Use `filter` to solve this.
+extension Borrowable{
+    func isOverDue() -> Bool {
+        guard let newReturnDate = self.returnDate, self.isBorrowed else {
+            return false
+        }
+        return Date() > newReturnDate
+    }
+    
+    mutating func checkIn() {
+        self.borrowDate = nil
+        self.returnDate = nil
+        self.isBorrowed = false
+        print("Success: Checkin ok")
+    }
+}
 
-let booksPostedAfter2000: Array<String> = books.filter{ $0["year"] as? Int ?? 0 > 2000 }.compactMap{ $0["title"] as? String }
+class Item {
+    let id: String
+    let title: String
+    let author: String
+    var isBorrowed: Bool
+    var returnDate: Date?
+    var borrowDate: Date?
+    var defaultBorrowingDays: Double = 20
+    
+    init(id: String, title: String, author: String) {
+        self.id = id
+        self.title = title
+        self.author = author
+        self.returnDate = nil
+        self.borrowDate = nil
+        self.isBorrowed = false
+    }
+}
 
-///4. Define new global variable of type Set<String> named `allGenres` that will include all the genres available in the books. Use `flatMap` to solve this.
+class Book: Item, Borrowable {}
 
-let arrayOfGenres = books.flatMap{book -> [String] in return book["genre"] as? [String] ?? []}
-let allGenres: Set<String> = Set(arrayOfGenres)
+class Magazine: Item {}
 
-///5. Define new global variable of type Int named `totalCost` to find out how much it would cost to purchase one instance of each book. Use `reduce`.
 
-// We assume prices are always Int. If not another implemention required
-var totalCost: Int = books.reduce(0){ result, book in return result + (book["price"] as? Int ?? 0)}
+enum LibraryError: Error{
+    case itemNotFound, itemNotBorrowable, alreadyBorrowed
+}
 
-//Outputs
-print("List of discounted -10% prices \(discountedPrices)")
-print("List of books posted after 2000 \(booksPostedAfter2000)")
-print("Set of all genres: \(allGenres)")
-print("Total cost is: \(totalCost)")
+class Library{
+    var items: [String:Item]
+    
+    init() {
+        self.items = [:]
+    }
+    
+    func addBook(_ book: Book) {
+        self.items[book.id] = book
+    }
+    
+    func borrowItem(by id: String) throws -> Item {
+        guard var item = self.items[id] else {
+            throw LibraryError.itemNotFound
+        }
+        
+        guard item.isBorrowed != true else {
+            throw LibraryError.alreadyBorrowed
+        }
+        
+        guard item is Borrowable else {
+            throw LibraryError.itemNotBorrowable
+        }
+        
+        item.borrowDate = Date()
+        item.returnDate = Date().addingTimeInterval(86400 * item.defaultBorrowingDays)
+        item.isBorrowed = true
+        print("Success: Checkout ok")
+
+        return item
+    }
+    
+    func borrowItemPrintError(by id: String) -> Item?{ //method created for tests purposes
+        do{
+            let userItem = try borrowItem(by: id)
+            print("Success: Borrow \(userItem.title) ok")
+            return userItem
+        } catch LibraryError.itemNotFound {
+            print("Error: Book is not available")
+        } catch LibraryError.alreadyBorrowed {
+            print("Error: Book is already borrowed")
+        } catch LibraryError.itemNotBorrowable {
+            print("Error: Book is not borrowable")
+        } catch {
+            print("Error: Unknown error")
+        }
+        return nil
+    }
+}
+
+let myLibrary = Library()
+let myBook1 = Book(id: "00", title: "LOTR", author: "Tolkien")
+let myBook2 = Book(id: "01", title: "Harry Potter", author: "JK Rowling")
+let myBook3 = Book(id: "02", title: "the Winnie Poth", author: "I dont know")
+
+myLibrary.addBook(myBook1)
+myLibrary.addBook(myBook2)
+myLibrary.addBook(myBook3)
+
+var userItem1: Item?
+var userItem2: Item?
+
+// Expected: Success
+userItem1 = myLibrary.borrowItemPrintError(by: "00")
+
+// Expected: Book is already borrowed
+userItem2 = myLibrary.borrowItemPrintError(by: "00")
+
+// Return to library a book 00
+if var borrowableItem = userItem1 as? Borrowable {
+    borrowableItem.checkIn()
+} else {
+    print("Error: Failed to cast '\(userItem1?.title ?? "ID 00")'")
+}
+
+//Expected: Success
+myLibrary.borrowItemPrintError(by: "00")
