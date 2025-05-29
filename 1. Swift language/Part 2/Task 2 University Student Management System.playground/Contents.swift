@@ -89,11 +89,11 @@ class Professor: Person {
 
 // A memberwise initializer (default in Swift for structs)
 struct University{
-    var name: String
-    var location: String
+    let name: String
+    let location: String
 }
 
-let artur = Person(name: "Artur", age: 10)
+let artur = Person(name: "Artur", age: 11)
 let ola = Person(name: "Ola", age: 22)
 let tomek = Person(name: "Tomek", ageCheck: 19)
 let lukas = Person(name: "Lukas", ageCheck: 10) // Expected nil
