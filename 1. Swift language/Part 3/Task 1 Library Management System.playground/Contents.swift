@@ -57,22 +57,26 @@ class Item {
     let id: String
     let title: String
     let author: String
-    var isBorrowed: Bool
-    var returnDate: Date?
-    var borrowDate: Date?
+    //    var isBorrowed: Bool
+    //    var returnDate: Date?
+    //    var borrowDate: Date?
     var defaultBorrowingDays: Double = 20
     
     init(id: String, title: String, author: String) {
         self.id = id
         self.title = title
         self.author = author
-        self.returnDate = nil
-        self.borrowDate = nil
-        self.isBorrowed = false
+        //        self.returnDate = nil
+        //        self.borrowDate = nil
+        //        self.isBorrowed = false
     }
 }
 
-class Book: Item, Borrowable {}
+class Book: Item, Borrowable {
+    var isBorrowed: Bool = false
+    var returnDate: Date? = nil
+    var borrowDate: Date? = nil
+}
 
 class Magazine: Item {}
 
@@ -92,31 +96,30 @@ class Library{
         self.items[book.id] = book
     }
     
-    func borrowItem(by id: String) throws -> Item {
+    func borrowItem(by id: String) throws -> Item? {
         guard var item = self.items[id] else {
             throw LibraryError.itemNotFound
         }
         
-        guard item.isBorrowed != true else {
-            throw LibraryError.alreadyBorrowed
+        if var borrowableItem = item as? Borrowable {
+            guard borrowableItem.isBorrowed != true else {
+                throw LibraryError.alreadyBorrowed
+            }
+            borrowableItem.borrowDate = Date()
+            borrowableItem.returnDate = Date().addingTimeInterval(86400 * item.defaultBorrowingDays)
+            borrowableItem.isBorrowed = true
+            print("Success: Checkout ok")
+            return item
         }
-        
-        guard item is Borrowable else {
+        else {
             throw LibraryError.itemNotBorrowable
         }
-        
-        item.borrowDate = Date()
-        item.returnDate = Date().addingTimeInterval(86400 * item.defaultBorrowingDays)
-        item.isBorrowed = true
-        print("Success: Checkout ok")
-
-        return item
     }
     
     func borrowItemPrintError(by id: String) -> Item?{ //method created for tests purposes
         do{
             let userItem = try borrowItem(by: id)
-            print("Success: Borrow \(userItem.title) ok")
+            print("Success: Borrow \(String(describing: userItem?.title)) ok")
             return userItem
         } catch LibraryError.itemNotFound {
             print("Error: Book is not available")
