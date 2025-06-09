@@ -32,11 +32,22 @@ class ViewController: UIViewController {
             13: "0", 14: "00", 15: "=", 16: "+",
         ]
         
+        // Create user label
+        let label = UILabel(frame: CGRect(x: offsetx, y: offsety, width: 4 * rawWidth + 3 * paddingy,
+                                          height: rawHeight))
+        label.text = "i am developer"
+        label.textColor = .systemBlue
+        label.font = UIFont.systemFont(ofSize: 24, weight: .medium)
+        label.textAlignment = .right
+        label.backgroundColor = .systemRed
+        label.numberOfLines = 1
+        view.addSubview(label)
+        
         // Create buttons grid
         for i in 0...3 {
             for j in 0...3 {
                 let x: CGFloat = Double(Double(j) * (rawWidth + paddingx) + offsetx)
-                let y: CGFloat = Double(Double(i) * (rawHeight + paddingy) + offsety)
+                let y: CGFloat = Double(Double(i) * (rawHeight + paddingy) + offsety + rawHeight + paddingy)
                 let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
                 
                 let gridLocation = i*4+j+1
