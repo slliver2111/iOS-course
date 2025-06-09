@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -13,6 +14,15 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         createCalculatorButtons()
     }
+    
+    let mainLabel = UILabel()
+    
+    let gridButtons: [Int: String] = [
+        1: "1", 2: "2", 3: "3", 4: "/",
+        5: "4", 6: "5", 7: "6", 8: "*",
+        9: "7", 10: "8", 11: "9", 12: "-",
+        13: "DEL", 14: "0", 15: "=", 16: "+",
+    ]
     
     func createCalculatorButtons() {
         let rawWidth: Double = 90.0
@@ -25,23 +35,15 @@ class ViewController: UIViewController {
         let width: CGFloat = Double(rawWidth)
         let height: CGFloat = Double(rawHeight)
         
-        let specialButtons: [Int: String] = [
-            1: "1", 2: "2", 3: "3", 4: "/",
-            5: "4", 6: "5", 7: "6", 8: "*",
-            9: "7", 10: "8", 11: "9", 12: "-",
-            13: "0", 14: "00", 15: "=", 16: "+",
-        ]
-        
-        // Create user label
-        let label = UILabel(frame: CGRect(x: offsetx, y: offsety, width: 4 * rawWidth + 3 * paddingy,
-                                          height: rawHeight))
-        label.text = "i am developer"
-        label.textColor = .systemBlue
-        label.font = UIFont.systemFont(ofSize: 24, weight: .medium)
-        label.textAlignment = .right
-        label.backgroundColor = .systemRed
-        label.numberOfLines = 1
-        view.addSubview(label)
+        // Customize main label
+        mainLabel.frame = CGRect(x: offsetx, y: offsety, width: 4 * rawWidth + 3 * paddingy, height: rawHeight)
+        mainLabel.text = "0"
+        mainLabel.textColor = .systemBlue
+        mainLabel.font = UIFont.systemFont(ofSize: 24, weight: .medium)
+        mainLabel.textAlignment = .right
+        mainLabel.backgroundColor = .white
+        mainLabel.numberOfLines = 1
+        view.addSubview(mainLabel)
         
         // Create buttons grid
         for i in 0...3 {
@@ -51,18 +53,47 @@ class ViewController: UIViewController {
                 let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
                 
                 let gridLocation = i*4+j+1
-                if let title = specialButtons[gridLocation] {
+                if let title = gridButtons[gridLocation] {
                     button.setTitle(title, for: .normal)
+                    button.tag = gridLocation
                 }
                 
                 button.setTitleColor(.white, for: .normal)
                 button.backgroundColor = .systemBlue
+                button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
                 view.addSubview(button)
             }
         }
     }
 
-    @objc func buttonTapped() {
-        print("Button was tapped!")
+    @objc func buttonTapped(_ sender: UIButton) {
+        // Delete action
+        if sender.tag == 13 && mainLabel.text?.isEmpty != nil {
+            var oldText = mainLabel.text
+            oldText?.removeLast()
+            mainLabel.text = oldText
+        }
+        
+        // Calculate action
+        else if sender.tag == 15 && mainLabel.text?.isEmpty != nil {
+            let expression = NSExpression(format: ("1.0*"+mainLabel.text!)) //Trick inducing calcs on Double
+            if let doubleResult = expression.expressionValue(with: nil, context: nil) as? Double {
+                if doubleResult.isInfinite {
+                    mainLabel.text = "Undefined"
+                } else {
+                    let intResult = Int(doubleResult)
+                    if Double(intResult) == doubleResult {
+                        mainLabel.text = String(intResult)
+                    } else {
+                        mainLabel.text = String(doubleResult)
+                    }
+                }
+            }
+        }
+        
+        // Other action
+        else if let newText = gridButtons[sender.tag], let oldText = mainLabel.text {
+            mainLabel.text = ((oldText == "0" || oldText == "Undefined") ? "" : oldText) + newText
+        }
     }
 }
