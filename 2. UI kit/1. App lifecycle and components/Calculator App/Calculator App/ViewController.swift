@@ -65,7 +65,7 @@ class ViewController: UIViewController {
             }
         }
     }
-
+    
     @objc func buttonTapped(_ sender: UIButton) {
         // Delete action
         if sender.tag == 13 && mainLabel.text?.isEmpty == false {
@@ -73,9 +73,10 @@ class ViewController: UIViewController {
         }
         
         // Calculate action
-        else if sender.tag == 15 && mainLabel.text?.isEmpty == false {
-            let expression = NSExpression(format: ("1.0*"+mainLabel.text!)) //Trick inducing calcs on Double
-            if let doubleResult = expression.expressionValue(with: nil, context: nil) as? Double {
+        else if sender.tag == 15, let input = mainLabel.text {
+            let expression = Expression(input)
+            do {
+                let doubleResult = try expression.evaluate() // 11
                 if doubleResult.isInfinite {
                     mainLabel.text = "Undefined"
                 } else {
@@ -86,6 +87,8 @@ class ViewController: UIViewController {
                         mainLabel.text = String(doubleResult)
                     }
                 }
+            } catch {
+                print("Error")
             }
         }
         
