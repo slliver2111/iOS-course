@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         1: "1", 2: "2", 3: "3", 4: "/",
         5: "4", 6: "5", 7: "6", 8: "*",
         9: "7", 10: "8", 11: "9", 12: "-",
-        13: "DEL", 14: "0", 15: "=", 16: "+",
+        13: "CLR", 14: "0", 15: "=", 16: "+",
     ]
     
     func createCalculatorButtons() {
@@ -68,14 +68,12 @@ class ViewController: UIViewController {
 
     @objc func buttonTapped(_ sender: UIButton) {
         // Delete action
-        if sender.tag == 13 && mainLabel.text?.isEmpty != nil {
-            var oldText = mainLabel.text
-            oldText?.removeLast()
-            mainLabel.text = oldText
+        if sender.tag == 13 && mainLabel.text?.isEmpty == false {
+            mainLabel.text = "0"
         }
         
         // Calculate action
-        else if sender.tag == 15 && mainLabel.text?.isEmpty != nil {
+        else if sender.tag == 15 && mainLabel.text?.isEmpty == false {
             let expression = NSExpression(format: ("1.0*"+mainLabel.text!)) //Trick inducing calcs on Double
             if let doubleResult = expression.expressionValue(with: nil, context: nil) as? Double {
                 if doubleResult.isInfinite {
