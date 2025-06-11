@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     private var currentInput: String = ""
     private var previousValue: Double? = nil
     private var currentOperator: String? = nil
+    private var clearInput: Bool = false
     
     private let gridButtons = [
         ["7", "8", "9", "/"],
@@ -56,7 +57,6 @@ class ViewController: UIViewController {
                 let y: CGFloat = Double(i) * (height + paddingy) + offsety + height + paddingy
                 let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
                 button.setTitle(el, for: .normal)
-                button.tag = el == "0" ? -1 : 0
                 button.setTitleColor(.white, for: .normal)
                 button.backgroundColor = .systemBlue
                 button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
@@ -82,7 +82,20 @@ class ViewController: UIViewController {
     }
     
     private func handleNumber(_ num : String) {
-        currentInput += num
+        if clearInput {
+            currentInput = ""
+            clearInput = false
+        }
+        
+        
+        // Preventing inputs like: 00001
+        if num == "0" && currentInput == "0" {
+            return
+        } else if currentInput == "0" && num != "0" {
+            currentInput = num
+        } else {
+            currentInput += num
+        }
         mainLabel.text = currentInput
     }
     
@@ -90,6 +103,7 @@ class ViewController: UIViewController {
         currentOperator = op
         previousValue = Double(currentInput)
         currentInput = ""
+        clearInput = false
     }
     
     private func handleEqual() {
@@ -120,11 +134,13 @@ class ViewController: UIViewController {
         currentInput = ""
         previousValue = nil
         currentOperator = nil
+        clearInput = true
     }
     
     private func handleReset() {
         currentInput = ""
         mainLabel.text = "0"
         previousValue = nil
+        clearInput = false
     }
 }
