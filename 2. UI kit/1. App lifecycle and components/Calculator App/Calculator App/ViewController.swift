@@ -86,8 +86,7 @@ class ViewController: UIViewController {
             currentInput = ""
             clearInput = false
         }
-        
-        
+    
         // Preventing inputs like: 00001
         if num == "0" && currentInput == "0" {
             return
@@ -123,6 +122,7 @@ class ViewController: UIViewController {
             result = nil
         }
         
+        // Remove suffix .0 if presents
         if let result = result {
             let intResult: Int = Int(result)
             mainLabel.text = Double(intResult) == result ? String(intResult) : String(result)
