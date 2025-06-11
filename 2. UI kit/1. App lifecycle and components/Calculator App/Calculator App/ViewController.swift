@@ -12,25 +12,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         createCalculatorButtons()
+        createCalculatorLabel()
     }
     
     private let mainLabel = UILabel()
     
-    private let gridButtons: [String] = [
-        "7", "8", "9", "/",
-        "4", "5", "6", "*",
-        "1", "2", "3", "-",
-        "C", "0", "=", "+"
+    private var currentInput: String = ""
+    private var previousValue: Double? = nil
+    private var currentOperator: String? = nil
+    
+    private let gridButtons = [
+        ["7", "8", "9", "/"],
+        ["4", "5", "6", "*"],
+        ["1", "2", "3", "-"],
+        ["C", "0", "=", "+"]
     ]
     
-    func createCalculatorButtons() {
-        let width: Double = 90.0
-        let height: Double = 100.0
-        let paddingx: Double = 1.0
-        let paddingy: Double = 1.0
-        let offsetx: Double = 10.0
-        let offsety: Double = 300.0
-        
+    let width: Double = 90.0
+    let height: Double = 100.0
+    let paddingx: Double = 1.0
+    let paddingy: Double = 1.0
+    let offsetx: Double = 10.0
+    let offsety: Double = 300.0
+    
+    func createCalculatorLabel() {
         // Customize main label
         mainLabel.frame = CGRect(x: offsetx, y: offsety, width: 4 * width + 3 * paddingy, height: height)
         mainLabel.text = "0"
@@ -41,14 +46,17 @@ class ViewController: UIViewController {
         mainLabel.numberOfLines = 1
         view.addSubview(mainLabel)
         
+    }
+    
+    func createCalculatorButtons() {
         // Create buttons grid
-        for i in 0...3 {
-            for j in 0...3 {
+        for (i,row) in gridButtons.enumerated() {
+            for (j,el) in row.enumerated() {
                 let x: CGFloat = Double(j) * (width + paddingx) + offsetx
                 let y: CGFloat = Double(i) * (height + paddingy) + offsety + height + paddingy
                 let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
-                button.setTitle(gridButtons[i*4+j], for: .normal)
-                button.tag = i*4+j+1
+                button.setTitle(el, for: .normal)
+                button.tag = el == "0" ? -1 : 0
                 button.setTitleColor(.white, for: .normal)
                 button.backgroundColor = .systemBlue
                 button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
@@ -57,47 +65,66 @@ class ViewController: UIViewController {
         }
     }
     
-    private var operatorToUse: OperationType = .idle
-    private var firstNumberToUse: Int?
-    private var secondNumberToUse: Int?
-    
-    enum OperationType {
-        case add, sub, multi, divide, idle
-    }
-    
     @objc func buttonTapped(_ sender: UIButton) {
-        
-        
+        guard let title = sender.title(for: .normal) else { return }
+        switch title {
+        case "0"..."9":
+            handleNumber(title)
+        case "+", "-", "*", "/":
+            handleOperator(title)
+        case "=":
+            handleEqual()
+        case "C":
+            handleReset()
+        default:
+            break
+        }
     }
     
-//    @objc func buttonTapped(_ sender: UIButton) {
-//        // Delete action
-//        if sender.tag == 13 && mainLabel.text?.isEmpty == false {
-//            mainLabel.text = "0"
-//            operatorToUse = .idle
-//            firstNumberToUse = nil
-//            secondNumberToUse = nil
-//        }
-//        
-//        // Calculate action using Expression framework
-//        else if sender.tag == 15, let num1 = firstNumberToUse, let num2 = secondNumberToUse  {
-//            switch operatorToUse {
-//            case .add:
-//                mainLabel.text = String(firstNumberToUse! + secondNumberToUse!)
-//            case .sub:
-//                mainLabel.text = String(firstNumberToUse! - secondNumberToUse!)
-//            case .multi:
-//                mainLabel.text = String(firstNumberToUse! * secondNumberToUse!)
-//            case .divide:
-//                mainLabel.text = String(Double(firstNumberToUse!) / Double(secondNumberToUse!))
-//            case .idle:
-//                print("test")
-//            }
-//        }
-//        
-//        // Other normal action
-//        else if let newText = gridButtons[sender.tag], let oldText = mainLabel.text {
-//            mainLabel.text = ((oldText == "0" || oldText == "Undefined") ? "" : oldText) + newText
-//        }
-//    }
+    private func handleNumber(_ num : String) {
+        currentInput += num
+        mainLabel.text = currentInput
+    }
+    
+    private func handleOperator(_ op: String) {
+        currentOperator = op
+        if currentInput == "" && memory != nil {
+            previousValue = memory
+        } else {
+            previousValue = Double(currentInput)
+        }
+
+        currentInput = ""
+    }
+    
+    var memory: Double? = nil
+    
+    private func handleEqual() {
+        guard let firstVal = previousValue else { print("firstVal error"); return }
+        guard let secondVal =  Double(currentInput) else { print("second val error"); return }
+        var result: Double = 0
+        switch currentOperator {
+        case "+":
+            result = firstVal + secondVal
+        case "-":
+            result = firstVal - secondVal
+        case "*":
+            result = firstVal * secondVal
+        case "/":
+            result = firstVal / secondVal
+        default:
+            break
+        }
+        mainLabel.text = String(result)
+
+        currentInput = ""
+        memory = result
+        previousValue = secondVal
+    }
+    
+    private func handleReset() {
+        currentInput = ""
+        mainLabel.text = "0"
+        previousValue = nil
+    }
 }
