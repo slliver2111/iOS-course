@@ -88,38 +88,38 @@ class ViewController: UIViewController {
     
     private func handleOperator(_ op: String) {
         currentOperator = op
-        if currentInput == "" && memory != nil {
-            previousValue = memory
-        } else {
-            previousValue = Double(currentInput)
-        }
-
+        previousValue = Double(currentInput)
         currentInput = ""
     }
     
-    var memory: Double? = nil
-    
     private func handleEqual() {
-        guard let firstVal = previousValue else { print("firstVal error"); return }
-        guard let secondVal =  Double(currentInput) else { print("second val error"); return }
-        var result: Double = 0
+        guard let prevVal = previousValue else { print("firstVal error"); return }
+        guard let currVal =  Double(currentInput) else { print("second val error"); return }
+        var result: Double? = nil
         switch currentOperator {
         case "+":
-            result = firstVal + secondVal
+            result = prevVal + currVal
         case "-":
-            result = firstVal - secondVal
+            result = prevVal - currVal
         case "*":
-            result = firstVal * secondVal
+            result = prevVal * currVal
         case "/":
-            result = firstVal / secondVal
+            result = currVal == 0 ? nil : prevVal / currVal
         default:
-            break
+            result = nil
         }
-        mainLabel.text = String(result)
-
+        
+        if let result = result {
+            let intResult: Int = Int(result)
+            mainLabel.text = Double(intResult) == result ? String(intResult) : String(result)
+        } else {
+            mainLabel.text = "Undefined"
+        }
+        
+        // Reset
         currentInput = ""
-        memory = result
-        previousValue = secondVal
+        previousValue = nil
+        currentOperator = nil
     }
     
     private func handleReset() {
