@@ -67,7 +67,7 @@ final class Task3ViewController: UIViewController {
     private func setupLabels() {
         titleLabel.text = "Sign In"
         titleLabel.font = .boldSystemFont(ofSize: 32)
-        bodyLabel.numberOfLines = 3
+        bodyLabel.numberOfLines = 0
         bodyLabel.text = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore
@@ -105,7 +105,7 @@ final class Task3ViewController: UIViewController {
         
         NSLayoutConstraint.activate(
             [
-                titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+                titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 40),
                 titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
                 titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
                 bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
@@ -122,7 +122,7 @@ final class Task3ViewController: UIViewController {
         NSLayoutConstraint.activate([
             usernameField.topAnchor.constraint(equalTo: bodyLabel.bottomAnchor, constant: 40),
             usernameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            contentView.trailingAnchor.constraint(equalTo: usernameField.trailingAnchor, constant: 16),
+            usernameField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 16),
             passwordField.leadingAnchor.constraint(equalTo: usernameField.leadingAnchor),
             passwordField.trailingAnchor.constraint(equalTo: usernameField.trailingAnchor)
@@ -134,7 +134,7 @@ final class Task3ViewController: UIViewController {
         NSLayoutConstraint.activate([
             logInButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            contentView.trailingAnchor.constraint(equalTo: logInButton.trailingAnchor, constant: 16),
+            logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             logInButton.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ])
     }
