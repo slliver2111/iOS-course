@@ -51,26 +51,28 @@ final class Task4ViewController: UIViewController {
     private func setupConstraints() {
         constraintsVertical = [
             view1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            view1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
-            view1.topAnchor.constraint(equalTo: view.topAnchor),
+            view1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             view1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             view2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            view2.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            view2.topAnchor.constraint(equalTo: view1.bottomAnchor),
+            view2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            view2.topAnchor.constraint(equalTo: view1.bottomAnchor, constant: 10.0),
             view2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
+            view1.heightAnchor.constraint(equalTo: view2.heightAnchor)
         ]
         
         constraintsCompact = [
             view1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            view1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             view1.topAnchor.constraint(equalTo: view.topAnchor),
             view1.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
+            view2.leadingAnchor.constraint(equalTo: view1.trailingAnchor, constant: 10.0),
             view2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            view2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             view2.topAnchor.constraint(equalTo: view.topAnchor),
             view2.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            view1.widthAnchor.constraint(equalTo: view2.widthAnchor)
         ]
     }
     
@@ -92,6 +94,8 @@ final class Task4ViewController: UIViewController {
         
         [view1, view2].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 20
             view.addSubview($0)
         }
     }
