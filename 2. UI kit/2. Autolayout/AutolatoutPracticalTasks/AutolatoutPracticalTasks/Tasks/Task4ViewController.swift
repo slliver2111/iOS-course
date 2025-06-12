@@ -11,16 +11,74 @@ import UIKit
 // If the orientation changes to Compact-Compact, same 2 subviews should be aligned horizontally.
 // Hou can use iPhone 16 simulator for testing.
 final class Task4ViewController: UIViewController {
+    
+    private let view1 = UIView()
+    private let view2 = UIView()
+    
+    private var constraintsVertical: [NSLayoutConstraint] = []
+    private var constraintsHorizontal: [NSLayoutConstraint] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForTraitChanges()
+        setupViews()
+        setupConstraints()
+        updateConstraints()
     }
     
     private func registerForTraitChanges() {
         let sizeTraits: [UITrait] = [UITraitVerticalSizeClass.self, UITraitHorizontalSizeClass.self]
         registerForTraitChanges(sizeTraits) { (self: Self, previousTraitCollection: UITraitCollection) in
-            // TODO: -  Handle the trait change.
             print("Trait collection changed:", self.traitCollection)
+            self.updateConstraints()
+        }
+    }
+    
+    private func setupConstraints() {
+        constraintsVertical = [
+            view1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
+            view1.topAnchor.constraint(equalTo: view.topAnchor),
+            view1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            view2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            view2.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            view2.topAnchor.constraint(equalTo: view1.bottomAnchor),
+            view2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        ]
+        
+        constraintsHorizontal = [
+            view1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            view1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            view1.topAnchor.constraint(equalTo: view.topAnchor),
+            view1.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            view2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            view2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            view2.topAnchor.constraint(equalTo: view.topAnchor),
+            view2.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ]
+    }
+    
+    private func updateConstraints() {
+        NSLayoutConstraint.deactivate(constraintsVertical)
+        NSLayoutConstraint.deactivate(constraintsHorizontal)
+        
+        if self.traitCollection.horizontalSizeClass == .compact,
+            self.traitCollection.verticalSizeClass == .compact {
+            NSLayoutConstraint.activate(self.constraintsHorizontal)
+        } else {
+            NSLayoutConstraint.activate(self.constraintsVertical)
+        }
+    }
+    
+    private func setupViews() {
+        view1.backgroundColor = .systemRed
+        view2.backgroundColor = .systemGreen
+        
+        [view1, view2].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
         }
     }
 }
