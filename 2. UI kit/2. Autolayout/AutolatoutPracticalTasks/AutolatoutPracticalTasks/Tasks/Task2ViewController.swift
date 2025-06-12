@@ -23,14 +23,24 @@ final class Task2ViewController: UIViewController {
     private func setupLabel() {
         titleLabel.text = "My label"
         titleLabel.font = .boldSystemFont(ofSize: 24)
+        titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
         view.addSubview(titleLabel)
     }
     
     private func setupButton() {
         myButton.setTitle("My button", for: .normal)
-        myButton.setTitleColor(.white, for: .normal)
         myButton.backgroundColor = .systemBlue
+        myButton.layer.cornerRadius = 10
+        
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .systemBlue
+        config.baseForegroundColor = .white
+        config.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 25, bottom: 12, trailing: 25)
+        config.cornerStyle = .dynamic
+        myButton.configuration = config
+        
         view.addSubview(myButton)
     }
     
