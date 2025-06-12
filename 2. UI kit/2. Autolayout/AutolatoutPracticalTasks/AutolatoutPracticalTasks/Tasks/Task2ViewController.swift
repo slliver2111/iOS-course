@@ -10,19 +10,20 @@ final class Task2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupConstraints()
     }
     
     
     private func setupView() {
         setupLabel()
         setupButton()
-        setupConstraints()
     }
     
     
     private func setupLabel() {
         titleLabel.text = "My label"
-        titleLabel.font = .boldSystemFont(ofSize: 32)
+        titleLabel.font = .boldSystemFont(ofSize: 24)
+        titleLabel.numberOfLines = 0
         view.addSubview(titleLabel)
     }
     
@@ -43,7 +44,8 @@ final class Task2ViewController: UIViewController {
         NSLayoutConstraint.activate(
             [
                 titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-                titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+                titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             ]
         )
     }
@@ -53,7 +55,8 @@ final class Task2ViewController: UIViewController {
         myButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             myButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            myButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            myButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            myButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
