@@ -56,9 +56,9 @@ final class Task3ViewController: UIViewController {
         
         NSLayoutConstraint.activate(
             [
-                contentView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor),
-                contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: view.topAnchor),
+                contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 contentView.bottomAnchor.constraint(lessThanOrEqualTo: view.keyboardLayoutGuide.topAnchor)
             ]
         )
