@@ -15,8 +15,22 @@ final class Task4ViewController: UIViewController {
     private let view1 = UIView()
     private let view2 = UIView()
     
+    private enum LayoutDirection {
+        case vertical
+        case compact
+        
+        static func get(_ traitCollection: UITraitCollection) -> Self {
+            if traitCollection.horizontalSizeClass == .compact,
+                traitCollection.verticalSizeClass == .compact {
+                return .compact
+            } else {
+                return .vertical
+            }
+        }
+    }
+    
     private var constraintsVertical: [NSLayoutConstraint] = []
-    private var constraintsHorizontal: [NSLayoutConstraint] = []
+    private var constraintsCompact: [NSLayoutConstraint] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +61,7 @@ final class Task4ViewController: UIViewController {
             view2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ]
         
-        constraintsHorizontal = [
+        constraintsCompact = [
             view1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             view1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             view1.topAnchor.constraint(equalTo: view.topAnchor),
@@ -62,13 +76,13 @@ final class Task4ViewController: UIViewController {
     
     private func updateConstraints() {
         NSLayoutConstraint.deactivate(constraintsVertical)
-        NSLayoutConstraint.deactivate(constraintsHorizontal)
+        NSLayoutConstraint.deactivate(constraintsCompact)
         
-        if self.traitCollection.horizontalSizeClass == .compact,
-            self.traitCollection.verticalSizeClass == .compact {
-            NSLayoutConstraint.activate(self.constraintsHorizontal)
-        } else {
-            NSLayoutConstraint.activate(self.constraintsVertical)
+        switch LayoutDirection.get(self.traitCollection) {
+            case .compact:
+                NSLayoutConstraint.activate(constraintsCompact)
+            case .vertical:
+                NSLayoutConstraint.activate(constraintsVertical)
         }
     }
     
