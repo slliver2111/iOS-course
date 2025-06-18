@@ -14,14 +14,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        // Create a new window
         let window = UIWindow(windowScene: windowScene)
+        
+        let obVC = OnboardingViewController()
+        obVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
+        
+        let profileVC = ProfileViewController()
+        profileVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
+        
+        let settingVC = UIViewController()
+        settingVC.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 2)
+        
+        let tbController = UITabBarController()
+        tbController.viewControllers = [obVC, profileVC, settingVC]
 
-        // Create an instance of your ViewController
-        let viewController = ViewController()
-
-        // Set the root view controller and make the window visible
-        window.rootViewController = viewController
+        window.rootViewController = tbController
         self.window = window
         window.makeKeyAndVisible()
     }
