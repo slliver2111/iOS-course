@@ -70,3 +70,7 @@ final class Task2ViewController: UIViewController {
         ])
     }
 }
+
+#Preview {
+    Task2ViewController()
+}
