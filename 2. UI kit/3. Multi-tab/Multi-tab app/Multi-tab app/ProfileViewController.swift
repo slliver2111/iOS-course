@@ -1,8 +1,15 @@
 import UIKit
 
-class ProfileViewController: UINavigationController {
+class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .systemMint
+        title = "Profile"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add, target: self, action: #selector(addTapped(_:))
+        )
     }
+    
+    @objc func addTapped(_ sender: UIButton) {}
 }
