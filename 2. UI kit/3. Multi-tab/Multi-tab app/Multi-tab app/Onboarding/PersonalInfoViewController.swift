@@ -2,9 +2,9 @@ import UIKit
 
 class PersonalInfoViewController: UIViewController {
     private let nameField = UITextField()
-    private let numberField = UITextField()
+    private let phoneField = UITextField()
     private let confirmButton = UIButton()
-    private let userAlert = UIAlertController()
+    private var userAlert: UIAlertController!
     
     private let contentView = UIView()
     
@@ -12,7 +12,7 @@ class PersonalInfoViewController: UIViewController {
         super.viewDidLoad()
         title = "Personal info"
         setupView()
-        //setupAlert()
+        setupAlert()
     }
     
     private func setupView() {
@@ -41,12 +41,13 @@ class PersonalInfoViewController: UIViewController {
         nameField.placeholder = "Enter Name"
         nameField.borderStyle = .roundedRect
         nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        numberField.placeholder = "Enter Phone Number"
-        numberField.borderStyle = .roundedRect
-        numberField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        phoneField.placeholder = "Enter Phone Number"
+        phoneField.borderStyle = .roundedRect
+        phoneField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        phoneField.keyboardType = .phonePad
         
         contentView.addSubview(nameField)
-        contentView.addSubview(numberField)
+        contentView.addSubview(phoneField)
     }
     
     private func setupButton() {
@@ -70,22 +71,22 @@ class PersonalInfoViewController: UIViewController {
     
     private func setupTextFieldsConstraints() {
         nameField.translatesAutoresizingMaskIntoConstraints = false
-        numberField.translatesAutoresizingMaskIntoConstraints = false
+        phoneField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             nameField.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 40),
             nameField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             nameField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            numberField.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 16),
-            numberField.leadingAnchor.constraint(equalTo: nameField.leadingAnchor),
-            numberField.trailingAnchor.constraint(equalTo: nameField.trailingAnchor)
+            phoneField.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 16),
+            phoneField.leadingAnchor.constraint(equalTo: nameField.leadingAnchor),
+            phoneField.trailingAnchor.constraint(equalTo: nameField.trailingAnchor)
         ])
     }
     
     private func setupButtonConstraints() {
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            confirmButton.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 16),
+            confirmButton.topAnchor.constraint(equalTo: phoneField.bottomAnchor, constant: 16),
             confirmButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             confirmButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             confirmButton.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
@@ -93,26 +94,29 @@ class PersonalInfoViewController: UIViewController {
     }
     
     private func setupAlert() {
-        userAlert.title = "Confirm Information"
-        userAlert.message = "Please confirm your name and phone number.\nName: \(nameField.text ?? ""), \nPhone: \(numberField.text ?? "")."
+        userAlert = UIAlertController(title: "Confirm Information", message: nil, preferredStyle: .alert)
         userAlert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {_ in self.proceedNextPage()}))
         userAlert.addAction(UIAlertAction(title: "Edit", style: .default, handler: nil))
     }
     
+    private func updateAlert() {
+        userAlert.message = "Please confirm your name and phone number.Name: \(nameField.text ?? ""), Phone: \(phoneField.text ?? "")."
+    }
+    
     @objc private func textFieldDidChange(_ sender: UITextField) {
-        if let nameText = nameField.text, let numberText = numberField.text {
+        if let nameText = nameField.text, let numberText = phoneField.text {
             confirmButton.isEnabled = !nameText.isEmpty && numberText.count >= 9
         }
     }
     
     @objc private func confirmTapped(_ sender: UIButton) {
-        setupAlert()
+        updateAlert()
         present(userAlert, animated: true)
     }
     
     private func proceedNextPage() {
-        let personalInfoVC = PersonalInfoViewController()
-        navigationController?.pushViewController(personalInfoVC, animated: false)
+        let preferencesVC = PreferencesViewController()
+        navigationController?.pushViewController(preferencesVC, animated: false)
     }
 }
 
