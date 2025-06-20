@@ -42,8 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let profileNC = UINavigationController(rootViewController: profileVC)
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         
-        let settingVC = UIViewController()
-        settingVC.title = "Settings are easy!"
+        let settingVC = SettingsViewController()
         settingVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), selectedImage: UIImage(systemName: "gear.fill"))
         
         let tabbVC = UITabBarController()
