@@ -40,6 +40,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.maximumZoomScale = 3.0
         scrollView.bounces = true
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
         
         // ImageView setup
         imageView.contentMode = .scaleAspectFill
