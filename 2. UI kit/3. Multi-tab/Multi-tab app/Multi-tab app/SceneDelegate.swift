@@ -7,24 +7,6 @@
 
 import UIKit
 
-class UserData {
-    var name = ""
-    var phoneNumber = ""
-    let defaultNotificationPreference = PreferencesViewController.UserNotificationPreference.Push
-    var notificationPreference: PreferencesViewController.UserNotificationPreference
-    var onBoardingFinished = false
-    
-    init() {
-        self.notificationPreference = defaultNotificationPreference
-    }
-    
-    func reset() {
-        name = ""
-        phoneNumber = ""
-        notificationPreference = defaultNotificationPreference
-    }
-}
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     let userData = UserData()
