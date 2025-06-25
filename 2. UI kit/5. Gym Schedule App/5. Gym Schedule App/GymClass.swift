@@ -21,7 +21,7 @@ struct GymClass{
         let today = calendar.startOfDay(for: Date())
         
         func makeClass(name: String, daysFromNow: Int, hour: Int, minute: Int, trainer: Trainer, isRegistered: Bool) -> GymClass {
-            let day = calendar.date(byAdding: .day, value: daysFromNow, to: today)!
+            let day = calendar.date(byAdding: .day, value: daysFromNow, to: today)! //TODO
             let time = DateComponents(hour: hour, minute: minute)
             return GymClass(name: name, day: day, time: time, trainer: trainer, isRegistered: isRegistered)
         }
