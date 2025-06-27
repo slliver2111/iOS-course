@@ -22,14 +22,25 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let day = sortedDays[indexPath.section]
         let gymClass = dictOfGymClass[day]![indexPath.row] //TODO
-        let cell = tableView.dequeueReusableCell(withIdentifier: GymClassCell.identifier)! //TODO
-        cell.textLabel?.text = gymClass.name
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: GymClassCell.identifier) as? GymClassCell else {
+            return UITableViewCell()
+        }
+        cell.nameClassLabel.text = "\(gymClass.name) (\(gymClass.duration) min)"
+        cell.trainerNameLabel.text = gymClass.trainer.name
+        cell.trainerImage.image = gymClass.trainer.photo
+        
+        if let hour = gymClass.time.hour, let minute = gymClass.time.minute {
+            cell.timeLabel.text = String(format: "%02d:%02d", hour, minute)
+        }
             
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sortedDays[section].formatted()
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateFormat = "EEEE dd/MM/yyyy"
+        return formatter.string(from: sortedDays[section])//sortedDays[section]
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -39,7 +50,6 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "GymClasses"
-        view.backgroundColor = .systemBackground
         
         // Prepare data
         dictOfGymClass = Dictionary(grouping: arrayOfGymClass, by: { $0.day })
@@ -53,6 +63,7 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.register(GymClassCell.self, forCellReuseIdentifier: GymClassCell.identifier)
         tableView.frame = view.bounds
+        //tableView.backgroundColor = .systemGray
         tableView.reloadData()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
