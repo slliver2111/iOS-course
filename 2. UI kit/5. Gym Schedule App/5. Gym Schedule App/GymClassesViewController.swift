@@ -20,23 +20,48 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let day = sortedDays[indexPath.section]
-        let gymClass = dictOfGymClass[day]![indexPath.row] //TODO
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GymClassCell.identifier) as? GymClassCell else {
             return UITableViewCell()
         }
-        cell.nameClassLabel.text = gymClass.name
-        cell.durationClassLabel.text = "(\(gymClass.duration) min)"
-        cell.trainerNameLabel.text = gymClass.trainer.name
-        cell.trainerImage.image = gymClass.trainer.photo
         
-        if let hour = gymClass.time.hour, let minute = gymClass.time.minute {
-            cell.timeLabel.text = String(format: "%02d:%02d", hour, minute)
+        let day = sortedDays[indexPath.section]
+        if let gymClass = dictOfGymClass[day]?[indexPath.row] {
+            cell.nameClassLabel.text = gymClass.name
+            cell.durationClassLabel.text = "(\(gymClass.duration) min)"
+            cell.trainerNameLabel.text = gymClass.trainer.name
+            cell.trainerImage.image = gymClass.trainer.photo
+            cell.isRegistered = gymClass.isRegistered
         }
+        
+        cell.toggleRegistrate = { [weak self, weak cell] in
+            guard let self = self,
+                  let strongCell = cell,
+                  let indexPath = self.tableView.indexPath(for: strongCell)
+            else {
+                return
+            }
             
+            let day = self.sortedDays[indexPath.section]
+            
+            guard var classFromDict = self.dictOfGymClass[day]?[indexPath.row] else { return }
+            classFromDict.isRegistered.toggle()
+            self.dictOfGymClass[day]?[indexPath.row] = classFromDict
+            
+            if let updatedCell = self.tableView.cellForRow(at: indexPath) as? GymClassCell {
+                updatedCell.isRegistered = classFromDict.isRegistered
+            }
+            
+            let message = classFromDict.isRegistered ?
+            "You have registered to \(classFromDict.name),\nsee you there!" :
+            "You have just cancelled \(classFromDict.name) :("
+            let alert = UIAlertController(title: "Message", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            self.present(alert, animated: true)
+            
+        }
+        
         return cell
     }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let formatter = DateFormatter()
         formatter.locale = Locale.current

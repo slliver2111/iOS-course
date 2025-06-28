@@ -8,10 +8,12 @@ import UIKit
 
 class GymClassCell: UITableViewCell {
     static let identifier = "MojCell"
+    var toggleRegistrate: (()->Void)?
     
     var isRegistered: Bool = false {
         didSet {
             updateButtonAppearance()
+            //onToggleRegistrate?()
         }
     }
     
@@ -92,7 +94,7 @@ class GymClassCell: UITableViewCell {
     }
     
     @objc private func plusTapped() {
-        togglePlusButton()
+        toggleRegistrate?()
     }
     
     private func updateButtonAppearance() {
@@ -100,10 +102,6 @@ class GymClassCell: UITableViewCell {
         let backgroundColor = isRegistered ? UIColor.systemGreen : UIColor.systemTeal
         plusButton.setImage(UIImage(systemName: imageName), for: .normal)
         plusButton.backgroundColor = backgroundColor
-    }
-    
-    private func togglePlusButton() {
-        isRegistered.toggle()
     }
     
     required init?(coder: NSCoder) {
