@@ -33,6 +33,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemCyan
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
         
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
