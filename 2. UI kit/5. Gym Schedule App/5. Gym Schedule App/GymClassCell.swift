@@ -9,10 +9,18 @@ import UIKit
 class GymClassCell: UITableViewCell {
     static let identifier = "MojCell"
     
+    var isRegistered: Bool = false {
+        didSet {
+            updateButtonAppearance()
+        }
+    }
+    
     let timeLabel = UILabel()
     let nameClassLabel = UILabel()
+    let durationClassLabel = UILabel()
     let trainerNameLabel = UILabel()
     let trainerImage = UIImageView()
+    let plusButton = UIButton(type: .system)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,8 +28,19 @@ class GymClassCell: UITableViewCell {
         timeLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
         nameClassLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        durationClassLabel.font = UIFont.boldSystemFont(ofSize: 20)
         
-        //trainerImage.translatesAutoresizingMaskIntoConstraints = false
+        plusButton.translatesAutoresizingMaskIntoConstraints = false
+        plusButton.setTitle(nil, for: .normal)
+        plusButton.setImage(UIImage(systemName: isRegistered ? "checkmark" : "plus"), for: .normal)
+        plusButton.tintColor = .white
+        plusButton.setTitleColor(.white, for: .normal)
+        plusButton.backgroundColor = .systemGreen
+        plusButton.layer.cornerRadius = 20
+        plusButton.clipsToBounds = true
+        plusButton.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
+        contentView.addSubview(plusButton)
+        
         trainerImage.contentMode = .scaleAspectFill
         trainerImage.backgroundColor = .systemGray6
         trainerImage.clipsToBounds = true
@@ -36,7 +55,12 @@ class GymClassCell: UITableViewCell {
         stackViewTrainer.alignment = .leading
         stackViewTrainer.spacing = 12
         
-        let stackViewDescription = UIStackView(arrangedSubviews: [nameClassLabel, stackViewTrainer])
+        let stackViewClassDescription = UIStackView(arrangedSubviews: [nameClassLabel, durationClassLabel])
+        stackViewClassDescription.axis = .horizontal
+        stackViewClassDescription.spacing = 2
+        stackViewClassDescription.alignment = .leading
+        
+        let stackViewDescription = UIStackView(arrangedSubviews: [stackViewClassDescription, stackViewTrainer])
         stackViewDescription.axis = .vertical
         stackViewDescription.spacing = 2
         stackViewDescription.alignment = .leading
@@ -55,11 +79,29 @@ class GymClassCell: UITableViewCell {
             stackViewMain.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             stackViewMain.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             stackViewMain.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackViewMain.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
+            stackViewMain.trailingAnchor.constraint(lessThanOrEqualTo: plusButton.leadingAnchor, constant: -20),
             
             trainerImage.widthAnchor.constraint(equalToConstant: 28),
             trainerImage.heightAnchor.constraint(equalToConstant: 28),
+            
+            plusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            plusButton.widthAnchor.constraint(equalToConstant: 40),
+            plusButton.heightAnchor.constraint(equalToConstant: 40),
+            plusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
+    }
+    
+    @objc private func plusTapped() {
+        togglePlusButton()
+    }
+    
+    private func updateButtonAppearance() {
+        let imageName = isRegistered ? "checkmark" : "plus"
+        plusButton.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+    
+    private func togglePlusButton() {
+        isRegistered.toggle()
     }
     
     required init?(coder: NSCoder) {

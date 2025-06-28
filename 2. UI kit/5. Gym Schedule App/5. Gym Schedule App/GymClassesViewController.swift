@@ -25,7 +25,8 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         guard let cell = tableView.dequeueReusableCell(withIdentifier: GymClassCell.identifier) as? GymClassCell else {
             return UITableViewCell()
         }
-        cell.nameClassLabel.text = "\(gymClass.name) (\(gymClass.duration) min)"
+        cell.nameClassLabel.text = gymClass.name
+        cell.durationClassLabel.text = "(\(gymClass.duration) min)"
         cell.trainerNameLabel.text = gymClass.trainer.name
         cell.trainerImage.image = gymClass.trainer.photo
         

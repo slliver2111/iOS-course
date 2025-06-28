@@ -28,7 +28,7 @@ struct GymClass{
     
         
         let trainer1 = Trainer(name: "Kasia", photo: UIImage(named: "Kasia"))
-        let trainer2 = Trainer(name: "Ola", photo: nil)
+        let trainer2 = Trainer(name: "Ola", photo: UIImage(named: "Ola"))
     
         return [
             makeClass(name: "Yoga", daysFromNow: 1, hour: 10, minute: 0, trainer: trainer1, isRegistered: true),
