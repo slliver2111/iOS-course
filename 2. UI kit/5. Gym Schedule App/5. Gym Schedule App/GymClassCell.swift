@@ -32,7 +32,7 @@ class GymClassCell: UITableViewCell {
         
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         plusButton.setTitle(nil, for: .normal)
-        plusButton.setImage(UIImage(systemName: isRegistered ? "checkmark" : "plus"), for: .normal)
+        plusButton.setImage(UIImage(systemName: isRegistered ? "xmark" : "plus"), for: .normal)
         plusButton.tintColor = .white
         plusButton.setTitleColor(.white, for: .normal)
         plusButton.backgroundColor = .systemGreen
@@ -96,7 +96,7 @@ class GymClassCell: UITableViewCell {
     }
     
     private func updateButtonAppearance() {
-        let imageName = isRegistered ? "checkmark" : "plus"
+        let imageName = isRegistered ? "xmark" : "plus"
         plusButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
