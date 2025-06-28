@@ -27,7 +27,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.itemSize = CGSize(width: 160, height: 160)
         layout.scrollDirection = .vertical
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -66,10 +66,28 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { fatalError("Error in dequeing photoCell")}
         
-        cell.backgroundColor = .green
         let dateOfPhotos = arrayOfDates[indexPath.section]
-        let img = dictOfPhotos[dateOfPhotos]?[indexPath.row].image
-        cell.imageView.image = img
+        if let photo = dictOfPhotos[dateOfPhotos]?[indexPath.row] {
+            cell.configure(with: photo)
+            cell.toggleFavorite = { [weak self] in
+                guard let self = self else {return}
+                self.dictOfPhotos[dateOfPhotos]?[indexPath.row].isFavorite.toggle()
+                
+                UIView.performWithoutAnimation{
+                    collectionView.reloadItems(at: [indexPath])
+                }
+                
+                if let updatedPhoto = self.dictOfPhotos[dateOfPhotos]?[indexPath.row] {
+                    let msg = updatedPhoto.isFavorite ?
+                    "Marked \(updatedPhoto.title) as Favorite!" :
+                    "Removed \(updatedPhoto.title) from Favorites."
+                    
+                    let alert = UIAlertController(title: "Success", message: msg, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                    present(alert, animated: true)
+                }
+            }
+        }
         
         return cell
     }
