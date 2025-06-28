@@ -35,7 +35,7 @@ class GymClassCell: UITableViewCell {
         plusButton.setImage(UIImage(systemName: isRegistered ? "xmark" : "plus"), for: .normal)
         plusButton.tintColor = .white
         plusButton.setTitleColor(.white, for: .normal)
-        plusButton.backgroundColor = .systemGreen
+        plusButton.backgroundColor = isRegistered ? .systemGreen : .systemTeal
         plusButton.layer.cornerRadius = 20
         plusButton.clipsToBounds = true
         plusButton.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
@@ -97,7 +97,9 @@ class GymClassCell: UITableViewCell {
     
     private func updateButtonAppearance() {
         let imageName = isRegistered ? "xmark" : "plus"
+        let backgroundColor = isRegistered ? UIColor.systemGreen : UIColor.systemTeal
         plusButton.setImage(UIImage(systemName: imageName), for: .normal)
+        plusButton.backgroundColor = backgroundColor
     }
     
     private func togglePlusButton() {
