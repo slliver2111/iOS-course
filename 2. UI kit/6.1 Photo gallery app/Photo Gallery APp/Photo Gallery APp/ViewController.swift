@@ -11,10 +11,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     private var collectionView: UICollectionView! //Todo
     private var arrayOfPhotos: [Photo] = Photo.createExampleArray()
+    private var arrayOfDates: [Int] = []
+    private var dictOfPhotos: [Int: [Photo]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemCyan
+        
+        dictOfPhotos = Dictionary(grouping: arrayOfPhotos, by: {Calendar.current.component(.year, from: $0.date)})
+        arrayOfDates = dictOfPhotos.keys.sorted(by: >)
         
         setupCollectionView()
         print(arrayOfPhotos)
@@ -30,6 +35,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -45,15 +51,36 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrayOfPhotos.count
+        let date = arrayOfDates[section]
+        return dictOfPhotos[date]?.count ?? 0
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return arrayOfDates.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 50)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else { fatalError("Error in dequeing photoCell")}
         
         cell.backgroundColor = .green
-        cell.imageView.image = arrayOfPhotos[indexPath.row].image
+        let dateOfPhotos = arrayOfDates[indexPath.section]
+        let img = dictOfPhotos[dateOfPhotos]?[indexPath.row].image
+        cell.imageView.image = img
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: HeaderView.identifier,
+                                                                           for: indexPath)
+                as? HeaderView else {fatalError("Error in dequeing headerView")}
+        header.titleLabel.text = String(arrayOfDates[indexPath.section])
+        return header
     }
 }
 
