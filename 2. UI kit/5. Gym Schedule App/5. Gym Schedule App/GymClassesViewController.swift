@@ -67,6 +67,20 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         return formatter.string(from: sortedDays[section])//sortedDays[section]
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let day = sortedDays[indexPath.section]
+            dictOfGymClass[day]?.remove(at: indexPath.row)
+            if let classesForDay = dictOfGymClass[day], classesForDay.isEmpty {
+                dictOfGymClass[day] = nil
+                sortedDays.remove(at: indexPath.section)
+                tableView.deleteSections(IndexSet(integer: indexPath.section), with: .fade)
+            } else {
+                tableView.deleteRows(at: [indexPath], with: .left)
+            }
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sortedDays.count
     }
