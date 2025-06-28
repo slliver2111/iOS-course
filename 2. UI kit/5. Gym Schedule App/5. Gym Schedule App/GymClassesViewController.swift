@@ -35,8 +35,8 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         
         cell.toggleRegistrate = { [weak self, weak cell] in
             guard let self = self,
-                  let strongCell = cell,
-                  let indexPath = self.tableView.indexPath(for: strongCell)
+                  let cell = cell,
+                  let indexPath = self.tableView.indexPath(for: cell)
             else {
                 return
             }
@@ -47,9 +47,7 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
             classFromDict.isRegistered.toggle()
             self.dictOfGymClass[day]?[indexPath.row] = classFromDict
             
-            if let updatedCell = self.tableView.cellForRow(at: indexPath) as? GymClassCell {
-                updatedCell.isRegistered = classFromDict.isRegistered
-            }
+            cell.isRegistered = classFromDict.isRegistered
             
             let message = classFromDict.isRegistered ?
             "You have registered to \(classFromDict.name),\nsee you there!" :
