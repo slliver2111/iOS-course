@@ -99,7 +99,7 @@ class GymClassCell: UITableViewCell {
     
     private func updateButtonAppearance() {
         let imageName = isRegistered ? "xmark" : "plus"
-        let backgroundColor = isRegistered ? UIColor.systemGreen : UIColor.systemTeal
+        let backgroundColor = isRegistered ? UIColor.systemPink : UIColor.systemTeal
         plusButton.setImage(UIImage(systemName: imageName), for: .normal)
         plusButton.backgroundColor = backgroundColor
     }
