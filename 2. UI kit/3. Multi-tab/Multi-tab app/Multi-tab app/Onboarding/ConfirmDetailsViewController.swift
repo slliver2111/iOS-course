@@ -87,7 +87,7 @@ class ConfirmDetailsViewController: UIViewController {
     }
     
     @objc private func editPersonalTapped() {
-        if let targetVC = navigationController?.viewControllers.dropLast(2).last {
+        if let targetVC = navigationController?.viewControllers.first(where: { $0 is PersonalInfoViewController }) {
             navigationController?.popToViewController(targetVC, animated: false)
         }
     }
