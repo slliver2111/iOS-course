@@ -56,7 +56,7 @@ final class Task3ViewController: UIViewController {
         
         NSLayoutConstraint.activate(
             [
-                contentView.topAnchor.constraint(equalTo: view.topAnchor),
+                contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                 contentView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
                 contentView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 contentView.bottomAnchor.constraint(lessThanOrEqualTo: view.keyboardLayoutGuide.topAnchor)
@@ -67,11 +67,15 @@ final class Task3ViewController: UIViewController {
     private func setupLabels() {
         titleLabel.text = "Sign In"
         titleLabel.font = .boldSystemFont(ofSize: 32)
+        titleLabel.numberOfLines = 0
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+
         bodyLabel.numberOfLines = 0
         bodyLabel.text = """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         sed do eiusmod tempor incididunt ut labore
         """
+        bodyLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(bodyLabel)
@@ -79,9 +83,12 @@ final class Task3ViewController: UIViewController {
     
     private func setupTextFields() {
         usernameField.placeholder = "Enter username"
-        passwordField.placeholder = "Enter password"
         usernameField.borderStyle = .roundedRect
+        usernameField.setContentHuggingPriority(.required, for: .vertical)
+
         passwordField.borderStyle = .roundedRect
+        passwordField.placeholder = "Enter password"
+        passwordField.setContentHuggingPriority(.required, for: .vertical)
         
         contentView.addSubview(usernameField)
         contentView.addSubview(passwordField)
@@ -135,7 +142,7 @@ final class Task3ViewController: UIViewController {
             logInButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 16),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            logInButton.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
 }
