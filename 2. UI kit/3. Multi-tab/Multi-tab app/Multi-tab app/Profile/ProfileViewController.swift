@@ -68,7 +68,11 @@ class ProfileViewController: UIViewController {
     @objc func pencilTapped() {
         let alert = UIAlertController(title: "Edit name", message: "Enter your new name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: {text in text.placeholder = "Type your name here"})
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {_ in self.username = alert.textFields?.first?.text ?? "Default"}))
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: {_ in
+            if let txtField = alert.textFields?.first?.text {
+                self.username = txtField.isEmpty ? "Default" : txtField
+            }
+        }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
