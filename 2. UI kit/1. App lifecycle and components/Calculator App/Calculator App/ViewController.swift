@@ -41,7 +41,8 @@ class ViewController: UIViewController {
         mainLabel.frame = CGRect(x: offsetx, y: offsety, width: 4 * width + 3 * paddingy, height: height)
         mainLabel.text = "0"
         mainLabel.textColor = .systemBlue
-        mainLabel.font = UIFont.systemFont(ofSize: 24, weight: .medium)
+        mainLabel.font = UIFont.systemFont(ofSize: 32, weight: .medium)
+        mainLabel.adjustsFontSizeToFitWidth = true
         mainLabel.textAlignment = .right
         mainLabel.backgroundColor = .white
         mainLabel.numberOfLines = 1
@@ -58,6 +59,7 @@ class ViewController: UIViewController {
                 let button = UIButton(frame: CGRect(x: x, y: y, width: width, height: height))
                 button.setTitle(el, for: .normal)
                 button.setTitleColor(.white, for: .normal)
+                button.setTitleColor(.systemCyan, for: .highlighted)
                 button.backgroundColor = .systemBlue
                 button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
                 view.addSubview(button)
@@ -141,6 +143,7 @@ class ViewController: UIViewController {
         currentInput = ""
         mainLabel.text = "0"
         previousValue = nil
+        currentOperator = nil
         clearInput = false
     }
 }
