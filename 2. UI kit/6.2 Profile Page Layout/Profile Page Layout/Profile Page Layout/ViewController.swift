@@ -103,12 +103,14 @@ class ViewController: UIViewController {
         name.font = .systemFont(ofSize: 24, weight: .bold)
         
         let followButton = UIButton(type: .system)
-        followButton.setTitle("Follow", for: .normal)
-        followButton.setTitleColor(.white, for: .normal)
-        followButton.backgroundColor = .systemBlue
-        followButton.layer.cornerRadius = 8
-        followButton.configuration = .filled()
-        followButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top:8, leading: 16, bottom: 8, trailing: 16)
+        var config = UIButton.Configuration.filled()
+        config.title = "Follow"
+        config.baseBackgroundColor = .systemBlue
+        config.baseForegroundColor = .white
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+        followButton.configuration = config
+
         
         userInfoStackView.addArrangedSubview(photo)
         userInfoStackView.addArrangedSubview(nameAndButtonStackView)
