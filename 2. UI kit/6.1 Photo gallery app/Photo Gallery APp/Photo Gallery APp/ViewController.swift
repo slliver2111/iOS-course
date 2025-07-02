@@ -9,14 +9,14 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    private var collectionView: UICollectionView! //Todo
+    private var collectionView: UICollectionView!
     private var arrayOfPhotos: [Photo] = Photo.createExampleArray()
     private var arrayOfDates: [Int] = []
     private var dictOfPhotos: [Int: [Photo]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
+        view.backgroundColor = .systemBackground
         
         dictOfPhotos = Dictionary(grouping: arrayOfPhotos, by: {Calendar.current.component(.year, from: $0.date)})
         arrayOfDates = dictOfPhotos.keys.sorted(by: >)
@@ -27,11 +27,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 160, height: 160)
+        //layout.itemSize = CGSize(width: 160, height: 160)
         layout.scrollDirection = .vertical
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemCyan
+        collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
         
@@ -101,5 +101,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         header.titleLabel.text = String(arrayOfDates[indexPath.section])
         return header
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let isLandscape = view.bounds.width > view.bounds.height
+        let columns: CGFloat = isLandscape ? 5 : 3
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {return .zero}
+        let spacing = flowLayout.minimumInteritemSpacing
+
+        let totalSpacing = spacing * (columns - 1)
+        let contentWidth = collectionView.bounds.width - totalSpacing
+        let itemWidth = contentWidth / columns
+
+        return CGSize(width: itemWidth, height: itemWidth + 20)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+            super.viewWillTransition(to: size, with: coordinator)
+
+            coordinator.animate(alongsideTransition: { [weak self] context in
+                self?.collectionView.collectionViewLayout.invalidateLayout()
+            }, completion: nil)
+        }
+
 }
 

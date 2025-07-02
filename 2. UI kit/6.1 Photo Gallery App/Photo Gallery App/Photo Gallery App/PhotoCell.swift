@@ -8,7 +8,7 @@
 import UIKit
 
 class PhotoCell: UICollectionViewCell {
-    static let identifier = "Photo Cell"
+    static let identifier = "PhotoCell"
     
     var toggleFavorite: (()->Void)?
     
@@ -22,7 +22,7 @@ class PhotoCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .label
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +74,13 @@ class PhotoCell: UICollectionViewCell {
         let img: String = photo.isFavorite ? "heart.fill" : "heart"
         self.favButton.setImage(UIImage(systemName: img), for: .normal)
         self.favButton.tintColor = photo.isFavorite ? .systemPink : .systemCyan
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        titleLabel.text = nil
+        favButton.setImage(UIImage(systemName: "heart"), for: .normal)
     }
     
     required init?(coder: NSCoder) {
