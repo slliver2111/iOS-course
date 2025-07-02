@@ -31,6 +31,11 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
             cell.trainerNameLabel.text = gymClass.trainer.name
             cell.trainerImage.image = gymClass.trainer.photo
             cell.isRegistered = gymClass.isRegistered
+            
+            if let hour = gymClass.time.hour, let minute = gymClass.time.minute {
+                let timeString = String(format: "%02d:%02d", hour, minute)
+                cell.timeLabel.text = timeString
+            }
         }
         
         cell.toggleRegistrate = { [weak self, weak cell] in
