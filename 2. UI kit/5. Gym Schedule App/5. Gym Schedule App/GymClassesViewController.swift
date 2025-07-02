@@ -26,7 +26,7 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         
         let day = sortedDays[indexPath.section]
         if let gymClass = dictOfGymClass[day]?[indexPath.row] {
-            cell.configure(with: gymClass, indexPath: indexPath)
+            cell.configure(with: gymClass)
         }
         
         cell.toggleRegistrate = { [weak self, weak cell] in

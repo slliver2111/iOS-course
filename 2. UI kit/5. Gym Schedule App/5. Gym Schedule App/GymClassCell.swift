@@ -7,7 +7,7 @@
 import UIKit
 
 class GymClassCell: UITableViewCell {
-    static let identifier = "MojCell"
+    static let identifier = "GymClassCell"
     var toggleRegistrate: (()->Void)?
     
     var isRegistered: Bool = false {
@@ -105,7 +105,7 @@ class GymClassCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with gymClass: GymClass, indexPath: IndexPath) {
+    func configure(with gymClass: GymClass) {
         self.nameClassLabel.text = gymClass.name
         self.durationClassLabel.text = "(\(gymClass.duration) min)"
         self.trainerNameLabel.text = gymClass.trainer.name

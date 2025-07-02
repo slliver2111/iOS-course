@@ -20,8 +20,8 @@ struct GymClass{
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         
-        func makeClass(name: String, daysFromNow: Int, hour: Int, minute: Int, trainer: Trainer, isRegistered: Bool) -> GymClass {
-            let day = calendar.date(byAdding: .day, value: daysFromNow, to: today)! //TODO
+        func makeClass(name: String, daysFromNow: Int, hour: Int, minute: Int, trainer: Trainer, isRegistered: Bool) -> GymClass? {
+            guard let day = calendar.date(byAdding: .day, value: daysFromNow, to: today) else {return nil}
             let time = DateComponents(hour: hour, minute: minute)
             return GymClass(name: name, day: day, time: time, trainer: trainer, isRegistered: isRegistered)
         }
@@ -30,11 +30,12 @@ struct GymClass{
         let trainer1 = Trainer(name: "Kasia", photo: UIImage(named: "Kasia"))
         let trainer2 = Trainer(name: "Ola", photo: UIImage(named: "Ola"))
     
-        return [
+        let potentialClasses = [
             makeClass(name: "Yoga", daysFromNow: 1, hour: 10, minute: 0, trainer: trainer1, isRegistered: true),
             makeClass(name: "Crossfit", daysFromNow: 1, hour: 12, minute: 0, trainer: trainer2, isRegistered: false),
             makeClass(name: "Karate", daysFromNow: 3, hour: 9, minute: 0, trainer: trainer2, isRegistered: false),
             makeClass(name: "Pump", daysFromNow: 4, hour: 8, minute: 0, trainer: trainer1, isRegistered: true),
         ]
+        return potentialClasses.compactMap{ $0 }
     }
 }
