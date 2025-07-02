@@ -13,7 +13,6 @@ class GymClassCell: UITableViewCell {
     var isRegistered: Bool = false {
         didSet {
             updateButtonAppearance()
-            //onToggleRegistrate?()
         }
     }
     
@@ -34,10 +33,8 @@ class GymClassCell: UITableViewCell {
         
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         plusButton.setTitle(nil, for: .normal)
-        plusButton.setImage(UIImage(systemName: isRegistered ? "xmark" : "plus"), for: .normal)
         plusButton.tintColor = .white
         plusButton.setTitleColor(.white, for: .normal)
-        plusButton.backgroundColor = isRegistered ? .systemGreen : .systemTeal
         plusButton.layer.cornerRadius = 20
         plusButton.clipsToBounds = true
         plusButton.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
@@ -106,5 +103,18 @@ class GymClassCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with gymClass: GymClass, indexPath: IndexPath) {
+        self.nameClassLabel.text = gymClass.name
+        self.durationClassLabel.text = "(\(gymClass.duration) min)"
+        self.trainerNameLabel.text = gymClass.trainer.name
+        self.trainerImage.image = gymClass.trainer.photo ?? UIImage(systemName: "person.crop.circle")
+        self.isRegistered = gymClass.isRegistered
+        
+        if let hour = gymClass.time.hour, let minute = gymClass.time.minute {
+            let timeString = String(format: "%02d:%02d", hour, minute)
+            self.timeLabel.text = timeString
+        }
     }
 }

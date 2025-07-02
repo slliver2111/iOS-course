@@ -26,16 +26,7 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         
         let day = sortedDays[indexPath.section]
         if let gymClass = dictOfGymClass[day]?[indexPath.row] {
-            cell.nameClassLabel.text = gymClass.name
-            cell.durationClassLabel.text = "(\(gymClass.duration) min)"
-            cell.trainerNameLabel.text = gymClass.trainer.name
-            cell.trainerImage.image = gymClass.trainer.photo
-            cell.isRegistered = gymClass.isRegistered
-            
-            if let hour = gymClass.time.hour, let minute = gymClass.time.minute {
-                let timeString = String(format: "%02d:%02d", hour, minute)
-                cell.timeLabel.text = timeString
-            }
+            cell.configure(with: gymClass, indexPath: indexPath)
         }
         
         cell.toggleRegistrate = { [weak self, weak cell] in
@@ -69,7 +60,7 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         let formatter = DateFormatter()
         formatter.locale = Locale.current
         formatter.dateFormat = "EEEE dd/MM/yyyy"
-        return formatter.string(from: sortedDays[section])//sortedDays[section]
+        return formatter.string(from: sortedDays[section])
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -106,7 +97,6 @@ class GymClassesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.register(GymClassCell.self, forCellReuseIdentifier: GymClassCell.identifier)
         tableView.frame = view.bounds
-        //tableView.backgroundColor = .systemGray
         tableView.reloadData()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
