@@ -9,6 +9,7 @@ import UIKit
 import Foundation
 
 struct Photo {
+    let id: Int
     let title: String
     let date: Date
     var isFavorite: Bool = false
@@ -17,12 +18,12 @@ struct Photo {
     static func createExampleArray() -> [Self] {
         var newArrayOfPhotos: [Self] = []
         for i in 1...6 {
-            let newPhoto = Photo(title: "Example title \(String(i))", date: Date.now, isFavorite: false, image: UIImage(named: String(i)))
+            let newPhoto = Photo(id: i, title: "Example title \(String(i))", date: Date.now, isFavorite: false, image: UIImage(named: String(i)))
             newArrayOfPhotos.append(newPhoto)
             
         }
         for i in 7...11 {
-            let newPhoto = Photo(title: "Example title \(String(i))", date: Calendar.current.date(from: DateComponents(year: 2022))!, isFavorite: true, image: UIImage(named: String(i)))
+            let newPhoto = Photo(id: i, title: "Example title \(String(i))", date: Calendar.current.date(from: DateComponents(year: 2022))!, isFavorite: true, image: UIImage(named: String(i)))
             newArrayOfPhotos.append(newPhoto)
             
         }
