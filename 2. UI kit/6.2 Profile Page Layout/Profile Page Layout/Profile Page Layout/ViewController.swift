@@ -52,16 +52,11 @@ class ViewController: UIViewController {
         return sv
     }()
     
-    let postsStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .vertical
-        sv.spacing = 12
-        sv.alignment = .center
-        return sv
-    }()
+    var taggedPostsStackView: UIStackView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         configureMainLayout()
         configureUserInfoSection()
         configureBioSection()
@@ -74,11 +69,9 @@ class ViewController: UIViewController {
         mainLayoutStackView.addArrangedSubview(userInfoStackView)
         mainLayoutStackView.addArrangedSubview(bioStackView)
         mainLayoutStackView.addArrangedSubview(statisticsStackView)
-        mainLayoutStackView.addArrangedSubview(postsStackView)
         
         NSLayoutConstraint.activate([
             mainLayoutStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            mainLayoutStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             mainLayoutStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             mainLayoutStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
         ])
@@ -90,6 +83,7 @@ class ViewController: UIViewController {
         photo.contentMode = .scaleAspectFit
         photo.layer.cornerRadius = 40
         photo.clipsToBounds = true
+        userInfoStackView.addArrangedSubview(photo)
         
         NSLayoutConstraint.activate([
             photo.widthAnchor.constraint(equalToConstant: 80),
@@ -98,84 +92,108 @@ class ViewController: UIViewController {
         
         let name = UILabel()
         name.text = userProfile.name
-        name.textColor = .white
+        name.textColor = .label
         name.numberOfLines = 0
         name.font = .systemFont(ofSize: 24, weight: .bold)
         
-        let followButton = UIButton(type: .system)
-        var config = UIButton.Configuration.filled()
-        config.title = "Follow"
-        config.baseBackgroundColor = .systemBlue
-        config.baseForegroundColor = .white
-        config.cornerStyle = .medium
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        followButton.configuration = config
-
+        let followButton = createButton(title: "Follow")
+        followButton.addTarget(self, action: #selector(addTaggedSection), for: .touchUpInside)
         
-        userInfoStackView.addArrangedSubview(photo)
         userInfoStackView.addArrangedSubview(nameAndButtonStackView)
         nameAndButtonStackView.addArrangedSubview(name)
         nameAndButtonStackView.addArrangedSubview(followButton)
     }
-
+    
     private func configureBioSection() {
         let bioDescr = UILabel()
         bioDescr.text = userProfile.bio
         bioDescr.numberOfLines = 0
-        bioDescr.textColor = .white
+        bioDescr.textColor = .label
         bioDescr.font = .systemFont(ofSize: 16)
         
         bioStackView.addArrangedSubview(bioDescr)
     }
     
     private func configureStatisticsSection() {
-        let followersCountLabel = UILabel()
-        followersCountLabel.text = String(userProfile.followerCount)
-        followersCountLabel.textColor = .white
-        followersCountLabel.font = .systemFont(ofSize: 16)
+        let followersStatView = makeStatView(count: String(userProfile.followerCount), label: "Followers")
+        let followingStatView = makeStatView(count: String(userProfile.followingCount), label: "Following")
+        let postsStatView = makeStatView(count: String(userProfile.postsCount), label: "Posts")
         
-        let followersLabel = UILabel()
-        followersLabel.text = "Followers"
-        followersLabel.textColor = .white
-        followersLabel.font = .systemFont(ofSize: 12)
+        statisticsStackView.addArrangedSubview(followersStatView)
+        statisticsStackView.addArrangedSubview(followingStatView)
+        statisticsStackView.addArrangedSubview(postsStatView)
+    }
+    
+    private func makeStatView(count: String, label: String) -> UIStackView {
+        let countLabel = UILabel()
+        countLabel.text = count
+        countLabel.textColor = .label
+        countLabel.font = .systemFont(ofSize: 16)
         
-        let sv1 = UIStackView(arrangedSubviews: [followersCountLabel, followersLabel])
-        sv1.axis = .vertical
-        sv1.spacing = 6
-        sv1.alignment = .center
+        let textLabel = UILabel()
+        textLabel.text = label
+        textLabel.textColor = .label
+        textLabel.font = .systemFont(ofSize: 12)
         
-        let followingLabel = UILabel()
-        followingLabel.text = String(userProfile.followingCount)
-        followingLabel.textColor = .white
-        followingLabel.font = .systemFont(ofSize: 16)
+        let stackView = UIStackView(arrangedSubviews: [countLabel, textLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 6
+        stackView.alignment = .center
         
-        let followingCountLabel = UILabel()
-        followingCountLabel.text = "Following"
-        followingCountLabel.textColor = .white
-        followingCountLabel.font = .systemFont(ofSize: 12)
+        return stackView
+    }
+    
+    private func createButton(title: String) -> UIButton {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.filled()
+        config.title = title
+        config.baseBackgroundColor = .systemBlue
+        config.baseForegroundColor = .white
+        config.cornerStyle = .medium
+        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
+        button.configuration = config
+        return button
+    }
+    
+    @objc private func addTaggedSection() {
+        guard self.taggedPostsStackView == nil else {return}
         
-        let sv2 = UIStackView(arrangedSubviews: [followingLabel, followingCountLabel])
-        sv2.axis = .vertical
-        sv2.spacing = 6
-        sv2.alignment = .center
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.spacing = 12
+        sv.alignment = .center
+        sv.isHidden = true
         
-        let postsLabel = UILabel()
-        postsLabel.text = String(userProfile.postsCount)
-        postsLabel.textColor = .white
-        postsLabel.font = .systemFont(ofSize: 16)
+        let label = UILabel()
+        label.textColor = .label
+        label.text = "Tagged Posts Section"
         
-        let postsCountLabel = UILabel()
-        postsCountLabel.text = "Posts"
-        postsCountLabel.textColor = .white
-        postsCountLabel.font = .systemFont(ofSize: 12)
+        let button1 = createButton(title: "Toggle User Info")
+        button1.addTarget(self, action: #selector(toggleUserInfo), for: .touchUpInside)
+        let button2 = createButton(title: "Toggle Bio")
+        button2.addTarget(self, action: #selector(toggleBio), for: .touchUpInside)
+
+        sv.addArrangedSubview(label)
+        sv.addArrangedSubview(button1)
+        sv.addArrangedSubview(button2)
         
-        let sv3 = UIStackView(arrangedSubviews: [postsLabel, postsCountLabel])
-        sv3.axis = .vertical
-        sv3.spacing = 6
-        sv3.alignment = .center
+        self.taggedPostsStackView = sv
+        self.mainLayoutStackView.addArrangedSubview(sv)
         
-        statisticsStackView.addArrangedSubview(sv1)
-        statisticsStackView.addArrangedSubview(sv2)
-        statisticsStackView.addArrangedSubview(sv3)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.taggedPostsStackView?.isHidden = false
+        })
+    }
+    
+    @objc private func toggleUserInfo() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.userInfoStackView.isHidden.toggle()
+        })
+    }
+    
+    @objc private func toggleBio() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.bioStackView.isHidden.toggle()
+        })
     }
 }
