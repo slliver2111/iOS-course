@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		ABE177702E1AE0B400E1F331 /* URL Requests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "URL Requests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABE177932E1C321F00E1F331 /* Top Rated Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Top Rated Movies.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		ABE177822E1AE0B600E1F331 /* Exceptions for "URL Requests" folder in "URL Requests" target */ = {
+		ABE177A52E1C322100E1F331 /* Exceptions for "Top Rated Movies" folder in "Top Rated Movies" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = ABE1776F2E1AE0B400E1F331 /* URL Requests */;
+			target = ABE177922E1C321F00E1F331 /* Top Rated Movies */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		ABE177722E1AE0B400E1F331 /* URL Requests */ = {
+		ABE177952E1C321F00E1F331 /* Top Rated Movies */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				ABE177822E1AE0B600E1F331 /* Exceptions for "URL Requests" folder in "URL Requests" target */,
+				ABE177A52E1C322100E1F331 /* Exceptions for "Top Rated Movies" folder in "Top Rated Movies" target */,
 			);
-			path = "URL Requests";
+			path = "Top Rated Movies";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		ABE1776D2E1AE0B400E1F331 /* Frameworks */ = {
+		ABE177902E1C321F00E1F331 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		ABE177672E1AE0B400E1F331 = {
+		ABE1778A2E1C321F00E1F331 = {
 			isa = PBXGroup;
 			children = (
-				ABE177722E1AE0B400E1F331 /* URL Requests */,
-				ABE177712E1AE0B400E1F331 /* Products */,
+				ABE177952E1C321F00E1F331 /* Top Rated Movies */,
+				ABE177942E1C321F00E1F331 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		ABE177712E1AE0B400E1F331 /* Products */ = {
+		ABE177942E1C321F00E1F331 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABE177702E1AE0B400E1F331 /* URL Requests.app */,
+				ABE177932E1C321F00E1F331 /* Top Rated Movies.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ABE1776F2E1AE0B400E1F331 /* URL Requests */ = {
+		ABE177922E1C321F00E1F331 /* Top Rated Movies */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ABE177832E1AE0B600E1F331 /* Build configuration list for PBXNativeTarget "URL Requests" */;
+			buildConfigurationList = ABE177A62E1C322100E1F331 /* Build configuration list for PBXNativeTarget "Top Rated Movies" */;
 			buildPhases = (
-				ABE1776C2E1AE0B400E1F331 /* Sources */,
-				ABE1776D2E1AE0B400E1F331 /* Frameworks */,
-				ABE1776E2E1AE0B400E1F331 /* Resources */,
+				ABE1778F2E1C321F00E1F331 /* Sources */,
+				ABE177902E1C321F00E1F331 /* Frameworks */,
+				ABE177912E1C321F00E1F331 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				ABE177722E1AE0B400E1F331 /* URL Requests */,
+				ABE177952E1C321F00E1F331 /* Top Rated Movies */,
 			);
-			name = "URL Requests";
+			name = "Top Rated Movies";
 			packageProductDependencies = (
 			);
-			productName = "URL Requests";
-			productReference = ABE177702E1AE0B400E1F331 /* URL Requests.app */;
+			productName = "Top Rated Movies";
+			productReference = ABE177932E1C321F00E1F331 /* Top Rated Movies.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		ABE177682E1AE0B400E1F331 /* Project object */ = {
+		ABE1778B2E1C321F00E1F331 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					ABE1776F2E1AE0B400E1F331 = {
+					ABE177922E1C321F00E1F331 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
-			buildConfigurationList = ABE1776B2E1AE0B400E1F331 /* Build configuration list for PBXProject "URL Requests" */;
+			buildConfigurationList = ABE1778E2E1C321F00E1F331 /* Build configuration list for PBXProject "Top Rated Movies" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = ABE177672E1AE0B400E1F331;
+			mainGroup = ABE1778A2E1C321F00E1F331;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = ABE177712E1AE0B400E1F331 /* Products */;
+			productRefGroup = ABE177942E1C321F00E1F331 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ABE1776F2E1AE0B400E1F331 /* URL Requests */,
+				ABE177922E1C321F00E1F331 /* Top Rated Movies */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		ABE1776E2E1AE0B400E1F331 /* Resources */ = {
+		ABE177912E1C321F00E1F331 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		ABE1776C2E1AE0B400E1F331 /* Sources */ = {
+		ABE1778F2E1C321F00E1F331 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		ABE177842E1AE0B600E1F331 /* Debug */ = {
+		ABE177A72E1C322100E1F331 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -147,9 +147,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NW4FSA9T2P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "URL Requests/Info.plist";
+				INFOPLIST_FILE = "Top Rated Movies/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -157,7 +158,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Artur.URL-Requests";
+				PRODUCT_BUNDLE_IDENTIFIER = "Artur.Top-Rated-Movies";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -165,7 +166,7 @@
 			};
 			name = Debug;
 		};
-		ABE177852E1AE0B600E1F331 /* Release */ = {
+		ABE177A82E1C322100E1F331 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -174,9 +175,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NW4FSA9T2P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "URL Requests/Info.plist";
+				INFOPLIST_FILE = "Top Rated Movies/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -184,7 +186,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Artur.URL-Requests";
+				PRODUCT_BUNDLE_IDENTIFIER = "Artur.Top-Rated-Movies";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -192,7 +194,7 @@
 			};
 			name = Release;
 		};
-		ABE177862E1AE0B600E1F331 /* Debug */ = {
+		ABE177A92E1C322100E1F331 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -256,7 +258,7 @@
 			};
 			name = Debug;
 		};
-		ABE177872E1AE0B600E1F331 /* Release */ = {
+		ABE177AA2E1C322100E1F331 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -316,25 +318,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ABE1776B2E1AE0B400E1F331 /* Build configuration list for PBXProject "URL Requests" */ = {
+		ABE1778E2E1C321F00E1F331 /* Build configuration list for PBXProject "Top Rated Movies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ABE177862E1AE0B600E1F331 /* Debug */,
-				ABE177872E1AE0B600E1F331 /* Release */,
+				ABE177A92E1C322100E1F331 /* Debug */,
+				ABE177AA2E1C322100E1F331 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ABE177832E1AE0B600E1F331 /* Build configuration list for PBXNativeTarget "URL Requests" */ = {
+		ABE177A62E1C322100E1F331 /* Build configuration list for PBXNativeTarget "Top Rated Movies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				ABE177842E1AE0B600E1F331 /* Debug */,
-				ABE177852E1AE0B600E1F331 /* Release */,
+				ABE177A72E1C322100E1F331 /* Debug */,
+				ABE177A82E1C322100E1F331 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = ABE177682E1AE0B400E1F331 /* Project object */;
+	rootObject = ABE1778B2E1C321F00E1F331 /* Project object */;
 }

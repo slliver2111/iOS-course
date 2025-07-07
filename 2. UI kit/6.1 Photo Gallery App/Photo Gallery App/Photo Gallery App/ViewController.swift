@@ -10,7 +10,11 @@ import Foundation
 
 class ViewController: UIViewController {
     
-    private var collectionView: UICollectionView!
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
     private var arrayOfPhotos: [Photo] = Photo.createExampleArray()
     private var arrayOfDates: [Int] = []
     private var dictOfPhotos: [Int: [Photo]] = [:]
@@ -26,10 +30,6 @@ class ViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
