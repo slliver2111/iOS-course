@@ -8,17 +8,17 @@
 import Foundation
 
 enum APIConstants {
-    static let key: String = ""
-    static let baseurl: String = ""
-    static let endpoint: String = ""
+    static let key: String = "7481bbcf1fcb56bd957cfe9af78205f3"
+    static let baseurl: String = "https://api.themoviedb.org/3/tv"
+    static let endpoint: String = "/top_rated"
     
     static func buildURL() -> URL? {
         guard var components = URLComponents(string: baseurl + endpoint) else {return nil}
         
         components.queryItems = [
-            URLQueryItem(name: "key", value: key),
+            URLQueryItem(name: "api_key", value: key),
             URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "pahe", value: "1"),
+            URLQueryItem(name: "page", value: "1"),
         ]
         
         return components.url
