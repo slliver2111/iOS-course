@@ -60,9 +60,7 @@ class UserViewController: UIViewController {
             return
         }
         
-        do {
-            try await Task.sleep(nanoseconds: 3_000_000_000)
-            
+        do {            
             let (data, response) = try await URLSession.shared.data(from: url)
             
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
