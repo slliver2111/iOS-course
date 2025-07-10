@@ -8,8 +8,6 @@
 import UIKit
 
 class NetworkManager {
-    static let shared = NetworkManager()
-    
     func downloadData() async throws -> [Movie] {
         guard let url = APIConstants.buildURL() else {
             throw APIError.invalidURL

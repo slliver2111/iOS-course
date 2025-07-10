@@ -63,3 +63,5 @@ fastlane/test_output
 
 # DS. Store
 .DS_Store
+
+Keys.plist

@@ -10,7 +10,8 @@ import UIKit
 // MARK: - Custom CollectionView Cell
 class MovieCell: UICollectionViewCell {
     static let identifier = "MovieCell"
-    private var imgURL: URL?
+    private var currentImgURL: URL?
+    private var dataTask: URLSessionDataTask?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -105,6 +106,9 @@ class MovieCell: UICollectionViewCell {
     
     
     func configure(with movie: Movie, index: Int) {
+        dataTask?.cancel()
+        imageView.image = nil
+        
         titleLabel.text = "\(index+1). \(movie.name)"
         ratingLabel.text = "⭐️ \(String(format: "%.1f", movie.rating))"
         dateLabel.text = "Date: \(movie.firstAirDate)"
@@ -115,15 +119,21 @@ class MovieCell: UICollectionViewCell {
         if let path = movie.posterPath {
             let urlString = "https://image.tmdb.org/t/p/w500\(path)"
             if let url = URL(string: urlString) {
-                self.imgURL = url
-                URLSession.shared.dataTask(with: url) {[weak self] data,_,_ in
-                    if let data = data, let image = UIImage(data: data) {
-                        guard self?.imgURL == url else {return}
-                        DispatchQueue.main.async {
-                            self?.imageView.image = image
-                        }
+                self.currentImgURL = url
+                
+                dataTask = URLSession.shared.dataTask(with: url) {[weak self] data,_,_ in
+                    guard let self = self else {return}
+                    
+                    guard let data = data, let image = UIImage(data: data), self.currentImgURL == url else {
+                        return
                     }
-                }.resume()
+                    
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                    }
+                }
+                
+                dataTask?.resume()
             }
         }
     }
@@ -134,7 +144,10 @@ class MovieCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        dataTask?.cancel()
         imageView.image = nil
+        dataTask = nil
+        
         titleLabel.text = nil
         ratingLabel.text = nil
         dateLabel.text = nil
