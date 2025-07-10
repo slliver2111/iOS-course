@@ -12,65 +12,105 @@ class MovieCell: UICollectionViewCell {
     static let identifier = "MovieCell"
     private var imgURL: URL?
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        return label
+    }()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        return label
+    }()
+    
+    private let ratingLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        label.font = .systemFont(ofSize: 18, weight: .medium)
+        return label
+    }()
+    
+    private let countriesLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        return label
+    }()
+    
+    private let popularityLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .label
+        return label
+    }()
+    
+    private lazy var descrStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [titleLabel, ratingLabel, dateLabel, countriesLabel, popularityLabel])
+        sv.axis = .vertical
+        sv.spacing = 2
+        return sv
+    }()
+    
     let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
-        iv.layer.cornerRadius = 8
-        iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
     
-    let titleLabel: UILabel = {
+    private lazy var photoAndInfoStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [imageView, descrStackView])
+        sv.axis = .horizontal
+        sv.alignment = .top
+        sv.spacing = 8
+        return sv
+    }()
+    
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
-        label.textAlignment = .center
-        label.backgroundColor = .black
-        label.textColor = .white
         label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .label
+        label.textAlignment = .justified
         return label
     }()
     
-    let ratingLabel: UILabel = {
-        let label = UILabel()
-        label.text = ""
-        label.textAlignment = .center
-        label.backgroundColor = .black
-        label.textColor = .white
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var mainStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [photoAndInfoStackView, descriptionLabel])
+        sv.axis = .vertical
+        sv.spacing = 8
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .systemGray6
+        contentView.addSubview(mainStackView)
         
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(imageView)
-        imageView.addSubview(ratingLabel)
-
+        let padding: CGFloat = 18
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding),
             
-            ratingLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 20),
-            ratingLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 20),
-            
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.widthAnchor.constraint(equalToConstant: 150),
         ])
     }
+    
     
     func configure(with movie: Movie, index: Int) {
         titleLabel.text = "\(index+1). \(movie.name)"
         ratingLabel.text = "⭐️ \(String(format: "%.1f", movie.rating))"
+        dateLabel.text = "Date: \(movie.firstAirDate)"
+        popularityLabel.text = "Popularity: \(String(format: "%.0f", movie.popularity))"
+        descriptionLabel.text = movie.overview
+        countriesLabel.text = "Countries: \(movie.originCountry.joined(separator: ", "))"
         
         if let path = movie.posterPath {
             let urlString = "https://image.tmdb.org/t/p/w500\(path)"
@@ -97,5 +137,9 @@ class MovieCell: UICollectionViewCell {
         imageView.image = nil
         titleLabel.text = nil
         ratingLabel.text = nil
+        dateLabel.text = nil
+        popularityLabel.text = nil
+        descriptionLabel.text = nil
+        countriesLabel.text = nil
     }
 }
