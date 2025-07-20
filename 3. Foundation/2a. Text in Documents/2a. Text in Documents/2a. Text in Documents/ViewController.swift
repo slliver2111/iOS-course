@@ -11,6 +11,7 @@ class ViewController: UIViewController {
     private let textView: UITextView = {
         let tv = UITextView()
         tv.layer.borderWidth = 1
+        tv.text = "Enter your text..."
         tv.layer.borderColor = UIColor.lightGray.cgColor
         tv.font = .systemFont(ofSize: 16)
         tv.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
@@ -21,7 +22,7 @@ class ViewController: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
-        button.setTitle("Save Text (overwrite)", for: .normal)
+        button.setTitle("Save Text", for: .normal)
         button.layer.cornerRadius = 8
         return button
     }()
@@ -52,7 +53,7 @@ class ViewController: UIViewController {
         return stack
     }()
     
-    private let fileName: String = "text_file3.txt"
+    private let fileName: String = "text_file5.txt"
     private var fileURL: URL? {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         return documentsDirectory.appendingPathComponent(fileName)
@@ -62,7 +63,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupActions()
-        loadText(AlertToShow: false)
     }
     
     private func setupUI() {
@@ -108,6 +108,7 @@ class ViewController: UIViewController {
         
         do {
             try text.write(to: url, atomically: true, encoding: .utf8)
+            textView.text = ""
             showAlert(title: "Success", message: "Text saved!")
         } catch {
             showAlert(title: "Error", message: "Failed to save the text: \(error.localizedDescription)")
@@ -120,7 +121,7 @@ class ViewController: UIViewController {
             return
         }
         
-        guard let textToAppend = textView.text, !textToAppend.isEmpty else {
+        guard var textToAppend = textView.text, !textToAppend.isEmpty else {
             showAlert(title: "Info", message: "Text view is empty.")
             return
         }
