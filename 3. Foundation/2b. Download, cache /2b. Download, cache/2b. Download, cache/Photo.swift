@@ -7,7 +7,7 @@
 
 import UIKit
 
-//MARK: Model
+// MARK: Model
 struct Photo: Codable {
     let id: String
     let urls: PhotoURLs

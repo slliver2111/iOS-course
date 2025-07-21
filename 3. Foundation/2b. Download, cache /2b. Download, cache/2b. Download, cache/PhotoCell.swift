@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: UI CELL
 class PhotoCell: UICollectionViewCell {
     static let identifier = "PhotoCell"
     
@@ -18,7 +19,7 @@ class PhotoCell: UICollectionViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(imageView)
@@ -36,9 +37,13 @@ class PhotoCell: UICollectionViewCell {
     }
     
     func configure(with url: URL) {
-        
+        ImageCacheManager.shared.fetchImage(from: url) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.imageView.image = image ?? UIImage(named: "placeholder")
+            }
+        }
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
