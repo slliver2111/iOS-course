@@ -10,12 +10,10 @@ import UIKit
 
 class MainViewController: UIViewController {
     private var collectionView: UICollectionView!
-    private var photos: [Photo] = []
-    private var networkManager: NetworkManager
+    private var photosURL: [URL] = []
     private var imageCacheManager: ImageCacheManager
     
-    init(networkManager: NetworkManager = NetworkManager(), imageCacheManager: ImageCacheManager = ImageCacheManager()) {
-        self.networkManager = networkManager
+    init(imageCacheManager: ImageCacheManager = ImageCacheManager()) {
         self.imageCacheManager = imageCacheManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,18 +27,18 @@ class MainViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Photo cache app"
         setupUI()
-        fetchAllImages()
+        fetchAllImagesURL()
     }
     
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
         present(alertController, animated: true)
     }
     
     private func setupUI() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clearCacheTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(fetchAllImages))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(clearCacheTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshTapped))
         
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 8
@@ -54,48 +52,51 @@ class MainViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
         collectionView.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.identifier)
+        
         view.addSubview(collectionView)
     }
     
-    
-    @objc private func fetchAllImages() {
-        self.photos = []
-        networkManager.fetchAllImages { [weak self] result in
-            
-            guard let self = self else {return}
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let newPhotos):
-                    self.photos.append(contentsOf: newPhotos)
-                case .failure(let error):
-                    self.showAlert(title: "Error", message: error.localizedDescription)
-                }
-                self.collectionView.reloadData()
-            }
-        }
+    @objc private func refreshTapped() {
+        ImageCacheManager.shared.clearCache()
+        self.photosURL = []
+        fetchAllImagesURL()
     }
     
     @objc private func clearCacheTapped() {
         ImageCacheManager.shared.clearCache()
-        self.photos = []
-        self.collectionView.reloadData()
+        self.photosURL = []
+        collectionView.reloadData()
         showAlert(title: "Info", message: "Cache cleared")
+    }
+    
+    private func fetchAllImagesURL() {
+        ImageCacheManager.shared.fetchAllImagesURL { [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let photosURL):
+                    self.photosURL.append(contentsOf: photosURL)
+                case .failure(let error):
+                    self.showAlert(title: "Error", message: error.localizedDescription)
+                }
+            }
+            self.collectionView.reloadData()
+        }
     }
 }
 
 // MARK: UICollectionViewDataSource
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photosURL.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.identifier, for: indexPath) as? PhotoCell else {
             return UICollectionViewCell()
         }
-        let photo = photos[indexPath.row]
-        cell.configure(with: photo.urls.regular)
+        cell.configure(with: photosURL[indexPath.row])
         return cell
     }
 }

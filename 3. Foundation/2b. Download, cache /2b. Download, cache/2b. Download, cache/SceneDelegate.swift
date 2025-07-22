@@ -15,9 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         self.window = UIWindow(windowScene: windowScene)
         
-        let networkManager = NetworkManager()
         let imageCacheManager = ImageCacheManager()
-        let mainViewController = MainViewController(networkManager: networkManager, imageCacheManager: imageCacheManager)
+        let mainViewController = MainViewController(imageCacheManager: imageCacheManager)
         let navViewController = UINavigationController(rootViewController: mainViewController)
         
         self.window?.rootViewController = navViewController

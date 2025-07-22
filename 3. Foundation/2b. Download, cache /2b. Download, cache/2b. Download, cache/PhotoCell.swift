@@ -37,9 +37,12 @@ class PhotoCell: UICollectionViewCell {
     }
     
     func configure(with url: URL) {
-        ImageCacheManager.shared.fetchImage(from: url) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.imageView.image = image ?? UIImage(named: "placeholder")
+        ImageCacheManager.shared.fetchImage(from: url) { result in
+            switch result {
+            case .success(let img):
+                self.imageView.image = img
+            case .failure(let error):
+                print("Some error occured: \(error.localizedDescription)")
             }
         }
     }
