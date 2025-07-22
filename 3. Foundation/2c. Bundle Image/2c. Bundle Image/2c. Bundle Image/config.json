@@ -1,0 +1,11 @@
+{
+    "title": "Gallery from Bundle",
+    "settings": {
+        "fileNames": [
+            "img1",
+            "img2",
+            "img3"
+        ],
+        "backgroundColor": "blue"
+    }
+}
