@@ -14,10 +14,17 @@ struct AppConfig: Decodable {
 
 struct AppSettings: Decodable {
     let fileNames: [String]
-    let backgroundColor: String
+    let imgHeight: CGFloat
+    let spacing: CGFloat
 }
 
 class ViewController: UIViewController {
+    private let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
     private let stackView: UIStackView = {
         let sv = UIStackView()
         sv.axis = .vertical
@@ -32,23 +39,17 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let config = getBundledJSONConfig() {
+        view.backgroundColor = .systemBackground
+        
+        if let config = parseConfig() {
             setupUI(with: config)
         }
     }
     
-    private func getBundledJSONConfig() -> AppConfig? {
-        if let config = parseConfig() {
-            return config
-        } else {
-            showAlert(title: "Error", message: "Something went wrong with parsing. Check logs")
-            return nil
-        }
-    }
     
     private func parseConfig() -> AppConfig? {
         guard let url = Bundle.main.url(forResource: configName, withExtension: configExtension) else {
-            print("Error with url")
+            showError(msg: "Error with url")
             return nil
         }
         
@@ -58,26 +59,35 @@ class ViewController: UIViewController {
             let config = try JSONDecoder().decode(AppConfig.self, from: data)
             return config
         } catch {
-            print("Error with parsing")
+            showError(msg: "Error with parsing")
             return nil
         }
     }
     
     private func setupUI(with appConfig: AppConfig) {
         self.title = appConfig.title
-        view.backgroundColor = UIColor(named: appConfig.settings.backgroundColor)
+        //stackView.backgroundColor = UIColor(named: appConfig.settings.backgroundColor)
         
-        view.addSubview(stackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
         
+        // The scroll view is pinned to the main view's safe area.
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40)
         ])
         
+        stackView.spacing = CGFloat(appConfig.settings.spacing)
+    
         let imgNames = appConfig.settings.fileNames
-        
         for imgName in imgNames {
             guard let img = UIImage(named: imgName) else {
                 print("Error with loading \(imgName).")
@@ -85,21 +95,28 @@ class ViewController: UIViewController {
             }
             let iv = UIImageView(image: img)
             iv.contentMode = .scaleAspectFit
-            iv.clipsToBounds = true
-            iv.layer.cornerRadius = 8
             
             NSLayoutConstraint.activate([
-                iv.heightAnchor.constraint(equalToConstant: 180)
+                iv.heightAnchor.constraint(equalToConstant: CGFloat(appConfig.settings.imgHeight))
             ])
             
             stackView.addArrangedSubview(iv)
         }
     }
     
-    private func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default))
-        present(alertController, animated: true)
+    private func showError(msg: String) {
+        view.backgroundColor = .systemBackground
+        let errorLabel = UILabel()
+        errorLabel.text = msg
+        errorLabel.textColor = .label
+        errorLabel.textAlignment = .center
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(errorLabel)
+        NSLayoutConstraint.activate([
+            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }
 

@@ -4,8 +4,11 @@
         "fileNames": [
             "img1",
             "img2",
-            "img3"
+            "img3",
+            "img4",
+            "img5",
         ],
-        "backgroundColor": "blue"
+        "imgHeight": 100.0,
+        "spacing": 20.0
     }
 }
