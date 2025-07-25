@@ -7,27 +7,28 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		ABDCA60C2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "3a. Observe and Handle Keyboard Events.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABDCA60C2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "3b. Observe and Handle Keyboard Event.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		ABDCA61E2E338BE9003123D5 /* Exceptions for "3a. Observe and Handle Keyboard Events" folder in "3a. Observe and Handle Keyboard Events" target */ = {
+		ABDCA61E2E338BE9003123D5 /* Exceptions for "3b. Observe and Handle Keyboard Event" folder in "3b. Observe and Handle Keyboard Event" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = ABDCA60B2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */;
+			target = ABDCA60B2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		ABDCA60E2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */ = {
+		ABDCA60E2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				ABDCA61E2E338BE9003123D5 /* Exceptions for "3a. Observe and Handle Keyboard Events" folder in "3a. Observe and Handle Keyboard Events" target */,
+				ABDCA61E2E338BE9003123D5 /* Exceptions for "3b. Observe and Handle Keyboard Event" folder in "3b. Observe and Handle Keyboard Event" target */,
 			);
-			path = "3a. Observe and Handle Keyboard Events";
-			sourceTree = "<group>";
+			name = "3b. Observe and Handle Keyboard Event";
+			path = "/Users/arturbednarz/Desktop/EPAM/1. COURSE/3. Foundation/3b. Observe and Handle Keyboard Events/3b. Observe and Handle Keyboard Event/3b. Observe and Handle Keyboard Event";
+			sourceTree = "<absolute>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -45,7 +46,7 @@
 		ABDCA6032E338BE7003123D5 = {
 			isa = PBXGroup;
 			children = (
-				ABDCA60E2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */,
+				ABDCA60E2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */,
 				ABDCA60D2E338BE7003123D5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,7 +54,7 @@
 		ABDCA60D2E338BE7003123D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABDCA60C2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events.app */,
+				ABDCA60C2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,9 +62,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ABDCA60B2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */ = {
+		ABDCA60B2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ABDCA61F2E338BE9003123D5 /* Build configuration list for PBXNativeTarget "3a. Observe and Handle Keyboard Events" */;
+			buildConfigurationList = ABDCA61F2E338BE9003123D5 /* Build configuration list for PBXNativeTarget "3b. Observe and Handle Keyboard Event" */;
 			buildPhases = (
 				ABDCA6082E338BE7003123D5 /* Sources */,
 				ABDCA6092E338BE7003123D5 /* Frameworks */,
@@ -74,13 +75,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				ABDCA60E2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */,
+				ABDCA60E2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */,
 			);
-			name = "3a. Observe and Handle Keyboard Events";
+			name = "3b. Observe and Handle Keyboard Event";
 			packageProductDependencies = (
 			);
 			productName = "3a. Observe and Handle Keyboard Events";
-			productReference = ABDCA60C2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events.app */;
+			productReference = ABDCA60C2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +99,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ABDCA6072E338BE7003123D5 /* Build configuration list for PBXProject "3a. Observe and Handle Keyboard Events" */;
+			buildConfigurationList = ABDCA6072E338BE7003123D5 /* Build configuration list for PBXProject "3b. Observe and Handle Keyboard Event" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,7 +113,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ABDCA60B2E338BE7003123D5 /* 3a. Observe and Handle Keyboard Events */,
+				ABDCA60B2E338BE7003123D5 /* 3b. Observe and Handle Keyboard Event */,
 			);
 		};
 /* End PBXProject section */
@@ -147,7 +148,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NW4FSA9T2P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "3a. Observe and Handle Keyboard Events/Info.plist";
+				INFOPLIST_FILE = "3b. Observe and Handle Keyboard Event/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -174,7 +175,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NW4FSA9T2P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "3a. Observe and Handle Keyboard Events/Info.plist";
+				INFOPLIST_FILE = "3b. Observe and Handle Keyboard Event/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -316,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ABDCA6072E338BE7003123D5 /* Build configuration list for PBXProject "3a. Observe and Handle Keyboard Events" */ = {
+		ABDCA6072E338BE7003123D5 /* Build configuration list for PBXProject "3b. Observe and Handle Keyboard Event" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ABDCA6222E338BE9003123D5 /* Debug */,
@@ -325,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ABDCA61F2E338BE9003123D5 /* Build configuration list for PBXNativeTarget "3a. Observe and Handle Keyboard Events" */ = {
+		ABDCA61F2E338BE9003123D5 /* Build configuration list for PBXNativeTarget "3b. Observe and Handle Keyboard Event" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ABDCA6202E338BE9003123D5 /* Debug */,
