@@ -24,12 +24,7 @@ class ReceiverViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: Notification.Name("MyNotification"),
-            object: nil
-        )
-        print("Notification observer removed")
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func setupUI(){
@@ -47,13 +42,13 @@ class ReceiverViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleTask(notification:)),
-            name: Notification.Name("MyNotification"),
+            name: .myMessageSent,
             object: nil
         )
     }
     
     @objc private func handleTask(notification: Notification) {
-        guard let msg = notification.userInfo?["myKey"] as? String else {
+        guard let msg = notification.userInfo?[NotificationKeys.myMessage] as? String else {
             print("Error with receiving notification")
             return
         }

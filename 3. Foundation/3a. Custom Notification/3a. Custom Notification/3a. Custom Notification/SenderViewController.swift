@@ -7,6 +7,14 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let myMessageSent = Notification.Name("Message Sent")
+}
+
+enum NotificationKeys {
+    static let myMessage = "my message"
+}
+
 class SenderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +48,9 @@ class SenderViewController: UIViewController {
     
     @objc private func sendButtonTapped() {
         NotificationCenter.default.post(
-            name: Notification.Name("MyNotification"),
+            name: .myMessageSent,
             object: nil,
-            userInfo: ["myKey": "Hello iOS world!"]
+            userInfo: [NotificationKeys.myMessage: "Hello iOS world!"]
         )
         
         let alert = UIAlertController(title: "Success", message: "Notification posted", preferredStyle: .alert)
