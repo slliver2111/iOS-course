@@ -7,10 +7,13 @@
 
 import UIKit
 
+struct Keys {
+    static let userSearchKey = "recent_searches"
+}
+
 class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource {
     // MARK: Properties
     private var searchStringArray: [String] = []
-    private let userSearchKey = "recent_searches"
     
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
@@ -63,7 +66,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
             searchStringArray.remove(at: 0)
         }
         
-        UserDefaults.standard.set(text, forKey: userSearchKey)
+        UserDefaults.standard.set(text, forKey: Keys.userSearchKey)
         tableView.reloadData()
     }
 }

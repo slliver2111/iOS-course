@@ -7,6 +7,11 @@
 
 import UIKit
 
+private struct Keys {
+    static let isLoggedIn = "isLoggedin"
+    static let username = "username"
+}
+
 class LoginViewController: UIViewController {    
     private let usernameTextField: UITextField = {
         let tf = UITextField()
@@ -55,8 +60,8 @@ class LoginViewController: UIViewController {
             return
         }
     
-        UserDefaults.standard.set(true, forKey: "isLoggedin")
-        UserDefaults.standard.set(username, forKey: "username")
+        UserDefaults.standard.set(true, forKey: Keys.isLoggedIn)
+        UserDefaults.standard.set(username, forKey: Keys.username)
         
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.showMainScreen()
     }
