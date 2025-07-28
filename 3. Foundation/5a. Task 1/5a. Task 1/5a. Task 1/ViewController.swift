@@ -54,3 +54,9 @@ class ViewController: UIViewController {
         print("Operation \"B\" finished")
     }
 }
+
+//Answer:
+//
+//"OperationQueue.main" runs on main thread (Thread 1). This blocks UI making an app freeze and unresponsive.
+//
+//"OperationQueue" runs on background thread (Thread 8). This does not block the UI remaining  the app responsive while the heave work is performed in the background.
