@@ -41,6 +41,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        searchStringArray = loadFromUserDefaults()
     }
     
     // MARK: Setup UI
@@ -59,14 +60,20 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UITableViewDa
     
     
     // MARK: Data handler
+    private func loadFromUserDefaults() -> [String] {
+        return UserDefaults.standard.stringArray(forKey: Keys.userSearchKey) ?? []
+    }
+    
     private func updateLastSearchArray(_ text: String) {
-        searchStringArray.append(text)
+        searchStringArray.removeAll { $0 == text }
+        
+        searchStringArray.insert(text, at: 0)
     
         if searchStringArray.count > 5 {
-            searchStringArray.remove(at: 0)
+            searchStringArray.removeLast()
         }
         
-        UserDefaults.standard.set(text, forKey: Keys.userSearchKey)
+        UserDefaults.standard.set(searchStringArray, forKey: Keys.userSearchKey)
         tableView.reloadData()
     }
 }
