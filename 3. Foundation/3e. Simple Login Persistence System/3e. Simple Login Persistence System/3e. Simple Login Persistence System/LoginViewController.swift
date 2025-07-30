@@ -8,7 +8,7 @@
 import UIKit
 
 private struct Keys {
-    static let isLoggedIn = "isLoggedin"
+    static let isLoggedIn = "isLoggedIn"
     static let username = "username"
 }
 

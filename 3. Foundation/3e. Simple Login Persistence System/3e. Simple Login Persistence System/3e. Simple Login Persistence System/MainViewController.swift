@@ -58,7 +58,7 @@ class MainViewController: UIViewController {
     }
 
     @objc private func logoutButtonTapped() {
-        UserDefaults.standard.set(false, forKey: "isLoggedin")
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
         UserDefaults.standard.removeObject(forKey: "username")
 
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.showLoginScreen()
