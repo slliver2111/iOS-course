@@ -13,22 +13,20 @@ func executeTasks() {
     let queue2 = DispatchQueue(label: "com.example.queue2", attributes: .concurrent)
     let queueFinal = DispatchQueue(label: "com.example.finalQueue")
 
-    group.enter()
     queue1.async {
+        group.enter()
         executeTask(1, delay: 2)
         group.leave()
     }
     
-    group.enter()
     queue2.async {
+        group.enter()
         executeTask(2, delay: 3)
         group.leave()
     }
     
     group.notify(queue: queueFinal) {
-        queueFinal.async {
-            executeTask(3, delay: 1)
-        }
+        executeTask(3, delay: 1)
     }
 }
 
