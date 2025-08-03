@@ -1,7 +1,6 @@
 import Combine
 
 let publisher = Just("Hello, Combine!")
-
-let cancellabe = publisher
+let subscription = publisher
     .sink{ val in
         print(val)}
