@@ -17,8 +17,8 @@ class PostsViewModel {
         URLSession.shared.dataTaskPublisher(for: url)
             .map(\.data)
             .decode(type: [Post].self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
             .replaceError(with: [])
+            .receive(on: RunLoop.main)
             .assign(to: \.posts, on: self)
             .store(in: &cancellables)
     }
