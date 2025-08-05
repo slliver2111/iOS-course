@@ -1,12 +1,9 @@
 import Combine
 
-var cancellables = Set<AnyCancellable>()
 let subject = PassthroughSubject<Int, Never>()
-    
-subject
-    .filter { $0 % 2 == 0 }
-    .sink { print($0) }
-    .store(in: &cancellables)
+let filteredSubject = subject.filter { $0 % 2 == 0 }
+var cancellables = filteredSubject.sink {val in print(val)}
+
 
 subject.send(0)
 subject.send(1)
