@@ -4,11 +4,12 @@ import Foundation
 var cancellables = Set<AnyCancellable>()
 let publisher = Future<String, Never> { promise in
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        print("Hello, Combine!")
+        promise(.success("Hello Combine!"))
     }
 }
 
 publisher
     .sink{ val in
-        print(val)}
+        print("Subscription:", val)
+    }
     .store(in: &cancellables)
