@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PostViewModel.swift
 //  Combine Task 9
 //
 //  Created by Artur Bednarz on 04/08/2025.
@@ -18,7 +18,7 @@ class PostsViewModel {
             .map(\.data)
             .decode(type: [Post].self, decoder: JSONDecoder())
             .replaceError(with: [])
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: \.posts, on: self)
             .store(in: &cancellables)
     }
