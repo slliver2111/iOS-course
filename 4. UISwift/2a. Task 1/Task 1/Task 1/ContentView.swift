@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var greetingShown = false
+    @State private var isGreetingShown = false
     
     var body: some View {
         VStack {
-            Toggle("Show Greeting", isOn: $greetingShown)
-            if greetingShown {
+            Toggle("Show Greeting", isOn: $isGreetingShown)
+            if isGreetingShown {
                 Text("Hello, SwiftUI!").font(.title)
             }
         }
+        .padding()
     }
 }
 
