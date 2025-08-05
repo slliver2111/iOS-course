@@ -10,6 +10,6 @@ let publisher = Future<String, Never> { promise in
 
 publisher
     .sink{ val in
-        print("Subscription:", val)
+        print(val)
     }
     .store(in: &cancellables)
