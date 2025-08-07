@@ -13,10 +13,12 @@ struct ContentView: View {
             Image(systemName: "person.crop.circle.fill")
                 .imageScale(.large)
                 .foregroundStyle(.gray)
-            VStack {
+            VStack(alignment: .leading) {
                 Text("Artur Bednarz")
                     .font(.headline)
-                Text("iOS Developer").font(.subheadline)
+                Text("iOS Developer")
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
             }
         }
         .padding()
