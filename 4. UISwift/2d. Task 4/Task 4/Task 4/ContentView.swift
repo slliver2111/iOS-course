@@ -7,16 +7,42 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+struct MyToggleStyle: ToggleStyle {
+    var activeColor: Color = .green
+    
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+            RoundedRectangle(cornerRadius: 30)
+                .fill(configuration.isOn ? activeColor : Color(.systemGray))
+                .overlay {
+                    Circle()
+                        .fill(.white)
+                        .padding(3)
+                        .offset(x: configuration.isOn ? 10 : -10)
+                    
+                }
+                .frame(width: 50, height: 32)
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        configuration.isOn.toggle()
+                    }
+                }
         }
-        .padding()
     }
+}
+
+struct ContentView: View {
+    private var myToggleStyle = MyToggleStyle()
+    @State private var isDarkModeEnabled = true
+    var body: some View {
+        HStack {
+            Toggle("Dark Mode", isOn: $isDarkModeEnabled)
+        }
+        .toggleStyle(myToggleStyle)
+        .preferredColorScheme(isDarkModeEnabled ? .dark : .light)
+    }
+    
 }
 
 #Preview {
