@@ -27,6 +27,7 @@ struct ContentView: View {
                 Text(person.name)
                 Spacer()
                 Button("Tap") { print(person.name) }
+                    .buttonStyle(.bordered)
             }
         }
         .padding()
