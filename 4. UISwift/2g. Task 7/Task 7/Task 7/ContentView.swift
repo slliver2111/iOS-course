@@ -43,6 +43,8 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                 }
+                Toggle("isPremium", isOn: $myExample.isPremium)
+                    .toggleStyle(.switch)
             }
         }
         .padding()
