@@ -36,8 +36,6 @@ struct SettingsView: View {
     
     var body: some View {
         Button("Go to Profile") {
-            print(path)
-            print("test1")
             path.append(profileRoute)
         }
         .navigationTitle("Settings")
