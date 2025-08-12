@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyButtonModifier: ViewModifier {
-    @Environment(\.isEnabled) private var isEnabled
+    var isEnabled = false
     
     func body(content: Content) -> some View {
         content
@@ -25,10 +25,10 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Active button") {}
-                .modifier(MyButtonModifier())
+                .modifier(MyButtonModifier(isEnabled: true))
             
             Button("Disabled button") {}
-                .modifier(MyButtonModifier())
+                .modifier(MyButtonModifier(isEnabled: false))
                 .disabled(true)
         }
         .padding()
