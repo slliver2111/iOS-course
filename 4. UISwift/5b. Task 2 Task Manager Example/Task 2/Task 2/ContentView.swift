@@ -78,28 +78,3 @@ struct RemoveTaskView: View {
 #Preview {
     ContentView()
 }
-
-
-
-//
-//What should be done
-//*
-//Important Note
-//
-//Scope Limitation:
-//Tasks in this example are stored in memory only.
-//They will not persist between app sessions.
-//Avoid implementing persistence mechanisms such as Core Data, UserDefaults, or JSON file storage.
-//This restriction simplifies the task to focus on state management within the view hierarchy using @EnvironmentObject.
-//﻿
-//
-//Define a TaskManagerclass:
-//Conforms to ObservableObjectand contains a @Publishedarray of tasks ([String]).
-//Create a Root View:
-//Injects the TaskManagerobject into the environment.
-//Build Three Views:
-//TaskListView: Displays the list of tasks.
-//AddTaskView: Provides a text field and button to add tasks to the list.
-//RemoveTaskView: Provides functionality to remove a task by its index.
-//Use @EnvironmentObject:
-//Access the shared list of tasks within these views for seamless task management.
