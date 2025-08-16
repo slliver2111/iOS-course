@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HStack {
+        HStack(spacing: 16) {
             Image(systemName: "person.crop.circle.fill")
                 .imageScale(.large)
                 .foregroundStyle(.gray)
+                .font(Font.system(size: 30))
             VStack(alignment: .leading) {
                 Text("Artur Bednarz")
                     .font(.headline)
@@ -20,6 +21,7 @@ struct ContentView: View {
                     .font(.subheadline)
                     .foregroundStyle(.gray)
             }
+            Spacer()
         }
         .padding()
     }
