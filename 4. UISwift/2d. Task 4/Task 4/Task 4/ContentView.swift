@@ -9,38 +9,38 @@ import SwiftUI
 
 struct MyToggleStyle: ToggleStyle {
     var activeColor: Color = .green
+    var labelText: String
     
     func makeBody(configuration: Configuration) -> some View {
-        HStack {
+        HStack{
             configuration.label
-            RoundedRectangle(cornerRadius: 30)
-                .fill(configuration.isOn ? activeColor : Color(.systemGray))
-                .overlay {
-                    Circle()
-                        .fill(.white)
-                        .padding(3)
-                        .offset(x: configuration.isOn ? 10 : -10)
-                    
+            ZStack(alignment: configuration.isOn ? .trailing : .leading) {
+                RoundedRectangle(cornerRadius: 30)
+                    .fill(configuration.isOn ? activeColor : Color(.systemGray))
+                    .frame(width: 50, height: 32)
+                Circle()
+                    .fill(.white)
+                    .frame(width: 26, height: 26)
+                    .padding(3)
+            }
+            .accessibilityLabel(labelText)
+            .accessibilityValue(configuration.isOn ? "On" : "Off")
+            .onTapGesture {
+                withAnimation(.spring()) {
+                    configuration.isOn.toggle()
                 }
-                .frame(width: 50, height: 32)
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        configuration.isOn.toggle()
-                    }
-                }
+            }
         }
     }
 }
 
 struct ContentView: View {
-    private var myToggleStyle = MyToggleStyle()
     @State private var isDarkModeEnabled = true
     var body: some View {
-        HStack {
-            Toggle("Dark Mode", isOn: $isDarkModeEnabled)
-        }
-        .toggleStyle(myToggleStyle)
-        .preferredColorScheme(isDarkModeEnabled ? .dark : .light)
+        Toggle("Dark Mode", isOn: $isDarkModeEnabled)
+            .toggleStyle(MyToggleStyle(labelText: "Dark Mode"))
+            .preferredColorScheme(isDarkModeEnabled ? .dark : .light)
+            .padding()
     }
     
 }
