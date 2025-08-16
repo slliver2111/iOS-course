@@ -19,33 +19,30 @@ struct ContentView: View {
     @State private var myExample = Person(name: "Artur Bendarz", age: 28, location: "Krakow ",isPremium: true)
     
     var body: some View {
-        ZStack(alignment: .center){
-            if myExample.isPremium {
-                VStack {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
-                        .font(.system(size: 80))
-                    Text("Premium Badge")
-                        .font(.headline)
-                }
-                .offset(x:0, y:-200)
-            }
-            VStack {
-                HStack {
-                    Image(systemName: "person.crop.circle.fill")
-                        .imageScale(.large)
-                        .foregroundStyle(.gray)
-                    VStack(alignment: .leading) {
-                        Text(myExample.name)
-                            .font(.headline)
-                        Text("Age: \(myExample.age), \(myExample.location)")
-                            .font(.subheadline)
-                            .foregroundStyle(.gray)
+        VStack(spacing: 16) {
+            HStack(spacing: 16) {
+                Image(systemName: "person.crop.circle.fill")
+                    .font(Font.system(size: 26))
+                    .foregroundStyle(.gray)
+                    .overlay(alignment: .topTrailing) {
+                        if myExample.isPremium {
+                            Image(systemName: "star.fill")
+                                .font(.title)
+                                .foregroundStyle(.yellow)
+                                .offset(x: 80, y: -80)
+                        }
                     }
+                VStack(alignment: .leading) {
+                    Text(myExample.name)
+                        .font(.headline)
+                    Text("Age: \(myExample.age), \(myExample.location)")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
                 }
-                Toggle("isPremium", isOn: $myExample.isPremium)
-                    .toggleStyle(.switch)
+                Spacer()
             }
+            Toggle("isPremium", isOn: $myExample.isPremium)
+                .toggleStyle(.switch)
         }
         .padding()
     }
