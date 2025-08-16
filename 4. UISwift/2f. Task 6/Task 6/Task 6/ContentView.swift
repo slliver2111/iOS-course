@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Product: Identifiable {
-    var id = UUID()
+    let id = UUID()
     let name: String
     var inBasket: Bool
 }
@@ -25,9 +25,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List($listOfProducts) { $product in
-                HStack {
-                    Toggle(product.name, isOn: $product.inBasket)
-                }
+                Toggle(product.name, isOn: $product.inBasket)
+                
             }
             .navigationTitle("Grocery List")
         }
