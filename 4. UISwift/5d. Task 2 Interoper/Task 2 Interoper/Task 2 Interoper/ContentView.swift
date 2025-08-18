@@ -18,13 +18,10 @@ struct SwiftUIView: UIViewControllerRepresentable {
 
 struct ContentView: View {
     var body: some View {
-        ZStack(alignment: .center) {
+        VStack(alignment: .center) {
             Text("Hello, from SwiftUI!")
-                .frame(width: 200, height: 50)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             SwiftUIView() //From UIKit
                 .frame(width: 200, height: 50)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
         }
     }
 }
