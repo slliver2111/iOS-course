@@ -19,16 +19,22 @@ final class ProfileModel {
 }
 
 struct ContentView: View {
-    @State private var model = ProfileModel(name: "Artur", email: "artur@epam.com")
+    @State private var model = ProfileModel(name: "", email: "")
     
     var body: some View {
-        VStack(spacing: 8) {
-            Text("Real time name: \(model.name)")
-            Text("Real time email: \(model.email)")
-            TextField("Enter text", text: $model.name)
-                .textFieldStyle(.roundedBorder)
-            TextField("Enter text", text: $model.email)
-                .textFieldStyle(.roundedBorder)
+        Form {
+            Section("Sign Up") {
+                Text("Real time name: \(model.name)")
+                Text("Real time email: \(model.email)")
+                TextField("Name", text: $model.name)
+                    .textFieldStyle(.roundedBorder)
+                    .textContentType(.emailAddress)
+                    .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                TextField("Email", text: $model.email)
+                    .textFieldStyle(.roundedBorder)
+            }
         }
         .padding()
     }
