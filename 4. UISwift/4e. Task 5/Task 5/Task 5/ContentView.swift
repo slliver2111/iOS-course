@@ -22,16 +22,12 @@ struct ContentView: View {
     @State private var model = FormModel()
     
     var body: some View {
-        Form() {
+        Form {
             Section(header: Text("Registration")){
-                TextField(text: $model.username, prompt: Text("Username")) {
-                    Text("Username")
-                }
-                TextField(text: $model.email, prompt: Text("Email")) {
-                    Text("Password")
-                }
+                TextField(text: $model.username, prompt: Text("Username")) {}
+                TextField(text: $model.email, prompt: Text("Email")) {}
                 Button("Submit") {}
-                    .disabled(model.username.isEmpty)
+                    .disabled(model.username.isEmpty || model.username.contains(" "))
             }
         }
         
