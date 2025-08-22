@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ParentView: View {
-    @State var isBlue = true
+    @State private var isBlue = true
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Rectangle()
                 .fill(isBlue ? .blue : .red)
                 .frame(width: 100, height: 150)
             ChildView(isBlue: $isBlue)
         }
+        .padding()
     }
 }
 
@@ -24,7 +25,7 @@ struct ChildView: View {
     @Binding var isBlue: Bool
     
     var body: some View {
-        Toggle("Red/blue", isOn: $isBlue)
+        Toggle("Use Blue", isOn: $isBlue)
     }
 }
 
