@@ -8,19 +8,19 @@
 import SwiftUI
 
 @Observable
-class Counter {
-    var counter = 0
+final class Counter {
+    var value = 0
 }
 
 struct ContentView: View {
-    @State var counter = Counter()
+    @State private var counter = Counter()
     
     var body: some View {
         HStack {
             VStack {
-                Text("Counter Main: \(counter.counter)")
+                Text("Counter Main: \(counter.value)")
                 Button("+1") {
-                    counter.counter += 1
+                    counter.value += 1
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -32,15 +32,15 @@ struct ContentView: View {
 }
 
 struct SiblingView: View {
-    @Bindable var counter: Counter
+    let counter: Counter
     
     var body: some View {
         VStack {
-            Text("Counter Main: \(counter.counter)")
+            Text("Counter Main: \(counter.value)")
             Button("-1") {
-                counter.counter -= 1
+                counter.value -= 1
             }
-                .buttonStyle(.borderedProminent)
+            .buttonStyle(.borderedProminent)
         }
         .padding()
     }
