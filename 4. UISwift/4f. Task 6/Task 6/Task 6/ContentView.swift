@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Setting: Identifiable {
-    var id = UUID()
+    let id = UUID()
     let name: String
     var isActive: Bool
 }
@@ -21,9 +21,11 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        Form () {
-            ForEach($settings) { $setting in
-                Toggle(setting.name, isOn: $setting.isActive)
+        Form {
+            Section("Settings") {
+                List($settings) { $setting in
+                    Toggle(setting.name, isOn: $setting.isActive)
+                }
             }
         }
     }
